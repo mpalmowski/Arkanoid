@@ -4,13 +4,6 @@ public class Paddle extends GameObject{
 
     Paddle(int x, int y, ID id) {
         super(x, y, id);
-        velX = 0;
-        velY = 0;
-    }
-
-    @Override
-    public void tick() {
-        x += velX;
     }
 
     @Override

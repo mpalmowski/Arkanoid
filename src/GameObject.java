@@ -4,15 +4,23 @@ public abstract class GameObject {
 
     protected int x,y;
     protected ID id;
-    protected int velX, velY;
+    protected int velX=0, velY=0;
+    protected boolean allowMovement = true;
 
-    public GameObject(int x, int y, ID id){
+    GameObject(int x, int y, ID id){
         this.x = x;
         this.y = y;
         this.id = id;
     }
 
-    public abstract void tick();
+    public void setAllowMovement(boolean allowMovement) {
+        this.allowMovement = allowMovement;
+    }
+
+    public void tick(){
+        this.x += velX;
+        this.y += velY;
+    }
 
     public abstract void render(Graphics graphics);
 

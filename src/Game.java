@@ -15,12 +15,12 @@ public class Game extends Canvas implements Runnable{
 
         new Window(WIDTH, HEIGHT, "Arkanoid", this);
 
-        Double paddleWidth, paddleHeight;
         addObjects();
     }
 
     private void addObjects(){
-        handler.addObject(new Paddle(295, 585, ID.Paddle));
+        handler.addObject(new Paddle(WIDTH/2 - 50/2, 585, ID.Paddle));
+        handler.addObject(new Ball(WIDTH/2 - 10/2, 500, ID.Ball));
     }
 
     synchronized void start(){

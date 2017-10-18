@@ -18,9 +18,13 @@ public class KeyInput extends KeyAdapter {
             GameObject tempObject = handler.objects.get(0);
             tempObject.setVelX(-5);
         }
-        if(keyCode == KeyEvent.VK_RIGHT){
+        else if(keyCode == KeyEvent.VK_RIGHT){
             GameObject tempObject = handler.objects.get(0);
             tempObject.setVelX(5);
+        }
+        else if(keyCode == KeyEvent.VK_UP){
+            GameObject tempObject = handler.objects.get(1);
+            tempObject.setAllowMovement(true);
         }
     }
 
