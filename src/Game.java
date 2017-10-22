@@ -6,21 +6,33 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private Handler handler;
     private boolean running = false;
+    private Insets windowInsets;
 
     private static final int WIDTH = 640, HEIGHT = 640;
+    public int boardWidth, boardHeight;
 
     Game(){
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
 
-        new Window(WIDTH, HEIGHT, "Arkanoid", this);
+        Window window = new Window(WIDTH, HEIGHT, "Arkanoid", this);
+
+        windowInsets = window.getInsets();
+        getWindowDimensions();
+        handler.setBoardWidth(boardWidth);
+        handler.setBoardHeight(boardHeight);
 
         addObjects();
     }
 
+    private void getWindowDimensions(){
+        boardHeight = HEIGHT - windowInsets.top - windowInsets.bottom;
+        boardWidth = WIDTH - windowInsets.left - windowInsets.right;
+    }
+
     private void addObjects(){
-        handler.addObject(new Paddle(WIDTH/2 - 50/2, 585, ID.Paddle));
-        handler.addObject(new Ball(WIDTH/2 - 10/2, 500, ID.Ball));
+        handler.addObject(new Paddle(boardWidth /2 - 100/2, boardHeight - 22, handler, ID.Paddle));
+        handler.addObject(new Ball(boardWidth /2 - 10/2, boardHeight - 100, handler, ID.Ball));
     }
 
     synchronized void start(){

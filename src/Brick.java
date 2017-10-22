@@ -1,30 +1,22 @@
 import java.awt.*;
 
-public class Paddle extends GameObject{
+class Brick extends GameObject{
 
-    private static final int WIDTH = 100, HEIGHT = 20;
+    private static final int WIDTH = 100, HEIGHT = 50;
 
-    public Paddle(int x, int y, Handler handler, ID id) {
+    Brick(int x, int y, Handler handler, ID id) {
         super(x, y, handler, id);
     }
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(Color.WHITE);
+        graphics.setColor(Color.BLUE);
         graphics.fillRect(x, y, WIDTH, HEIGHT);
     }
 
     @Override
     public void clamp() {
-        if(x > boardWidth - WIDTH)
-            x = boardWidth - WIDTH;
-        else if(x < 0)
-            x = 0;
 
-        if(y > boardHeight - HEIGHT)
-            y = boardHeight - HEIGHT;
-        else if(y < 0)
-            y = 0;
     }
 
     @Override

@@ -1,29 +1,44 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-public class Handler {
+class Handler {
 
-    LinkedList<GameObject> objects = new LinkedList<GameObject>();
+    LinkedList<GameObject> objects = new LinkedList<>();
+    private int boardWidth = 0, boardHeight = 0;
 
-    public void addObject(GameObject object){
+    void addObject(GameObject object){
         this.objects.add(object);
     }
 
-    public void removeObject(GameObject object){
+    void removeObject(GameObject object){
         this.objects.remove(object);
     }
 
-    public void tick(){
-        for(int i=0; i<objects.size(); ++i){
-            GameObject tempObject = objects.get(i);
+    void tick(){
+        for (GameObject tempObject : objects) {
             tempObject.tick();
         }
     }
 
-    public void render(Graphics graphics){
-        for(int i=0; i<objects.size(); ++i){
-            GameObject tempObject = objects.get(i);
+    void render(Graphics graphics){
+        for (GameObject tempObject : objects) {
             tempObject.render(graphics);
         }
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+
+    public void setBoardWidth(int boardWidth) {
+        this.boardWidth = boardWidth;
+    }
+
+    public int getBoardHeight() {
+        return boardHeight;
+    }
+
+    public void setBoardHeight(int boardHeight) {
+        this.boardHeight = boardHeight;
     }
 }

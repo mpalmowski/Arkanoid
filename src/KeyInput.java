@@ -14,6 +14,9 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         keyCode = e.getKeyCode();
 
+        if(keyCode == KeyEvent.VK_ESCAPE)
+            System.exit(0);
+
         if(keyCode == KeyEvent.VK_LEFT){
             GameObject tempObject = handler.objects.get(0);
             tempObject.setVelX(-5);

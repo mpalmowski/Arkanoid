@@ -3,8 +3,10 @@ import java.awt.*;
 
 class Window extends Canvas {
 
+    private JFrame frame;
+
     Window(int width, int height, String title, Game game){
-        JFrame frame = new JFrame(title);
+        frame = new JFrame(title);
         Dimension dimension = new Dimension(width, height);
 
         frame.setPreferredSize(dimension);
@@ -18,5 +20,9 @@ class Window extends Canvas {
         frame.setVisible(true);
 
         game.start();
+    }
+
+    Insets getInsets(){
+        return frame.getInsets();
     }
 }
