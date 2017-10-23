@@ -9,7 +9,7 @@ public class Game extends Canvas implements Runnable{
     private Insets windowInsets;
 
     private static final int WIDTH = 640, HEIGHT = 640;
-    public int boardWidth, boardHeight;
+    private int boardWidth, boardHeight;
 
     Game(){
         handler = new Handler();
@@ -18,21 +18,24 @@ public class Game extends Canvas implements Runnable{
         Window window = new Window(WIDTH, HEIGHT, "Arkanoid", this);
 
         windowInsets = window.getInsets();
-        getWindowDimensions();
+        getBoardDimensions();
         handler.setBoardWidth(boardWidth);
         handler.setBoardHeight(boardHeight);
 
         addObjects();
     }
 
-    private void getWindowDimensions(){
+    private void getBoardDimensions(){
         boardHeight = HEIGHT - windowInsets.top - windowInsets.bottom;
         boardWidth = WIDTH - windowInsets.left - windowInsets.right;
     }
 
     private void addObjects(){
-        handler.addObject(new Paddle(boardWidth /2 - 100/2, boardHeight - 22, handler, ID.Paddle));
-        handler.addObject(new Ball(boardWidth /2 - 10/2, boardHeight - 100, handler, ID.Ball));
+        Image paddleImage = new Image("Paddle.png");
+        handler.addObject(new Paddle(handler, ID.Paddle, paddleImage));
+
+        Image ballImage = new Image("Ball.png");
+        handler.addObject(new Ball(handler, ID.Ball, ballImage));
     }
 
     synchronized void start(){

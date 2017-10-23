@@ -6,16 +6,21 @@ public class Ball extends GameObject {
 
     private static final int velocity = 8;
     private double angle = 0;
-    private static final int WIDTH = 15, HEIGHT = 15;
+    private int width, height;
 
-    Ball(int x, int y, Handler handler, ID id) {
-        super(x, y, handler, id);
+    Ball(Handler handler, ID id, Image image) {
+        super(handler, id, image);
+
+        this.width = handler.getBoardWidth()/42;
+        this.height = this.width;
+        this.x = handler.getBoardWidth()/2 - width/2;
+        this.y = handler.getBoardWidth()*2/3;
 
         allowMovement = false;
     }
 
     private double calculateAngle(GameObject paddle){
-        int ballCenter = x + WIDTH/2;
+        int ballCenter = x + width /2;
         int paddleCenter = paddle.getX() + paddle.getWidth()/2;
         double pointOfCollision = ballCenter - paddleCenter;
         double radius = paddle.getWidth() * sqrt(2) / 2;
@@ -32,14 +37,13 @@ public class Ball extends GameObject {
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(Color.LIGHT_GRAY);
-        graphics.fillRect(x, y, WIDTH, HEIGHT);
+        graphics.drawImage(image.getBufferedImage(), x, y, width, height, null);
     }
 
     @Override
     public void clamp() {
-        if(x > boardWidth - WIDTH){
-            x = boardWidth - WIDTH;
+        if(x > boardWidth - width){
+            x = boardWidth - width;
             velX *= -1;
             angle *= -1;
         }
@@ -49,8 +53,8 @@ public class Ball extends GameObject {
             angle *= -1;
         }
 
-        if(y > boardHeight - HEIGHT){
-            y = boardHeight - HEIGHT;
+        if(y > boardHeight - height){
+            y = boardHeight - height;
             velY *= -1;
         }
         else if(y < 0){
@@ -61,7 +65,7 @@ public class Ball extends GameObject {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, WIDTH, HEIGHT);
+        return new Rectangle(x, y, width, height);
     }
 
     @Override
@@ -71,17 +75,17 @@ public class Ball extends GameObject {
                 if(getBounds().intersects(tempObject.getBounds())){
                     double angle = calculateAngle(tempObject);
                     this.angle += angle;
-                    if(this.angle > 45.0)
-                        this.angle = 45.0;
-                    else if(this.angle < -45.0)
-                        this.angle = -45.0;
+                    if(this.angle > 0.8)
+                        this.angle = 0.8;
+                    else if(this.angle < -0.8)
+                        this.angle = -0.8;
 
                     Double tempX, tempY;
                     tempX = velocity * sin(this.angle);
                     tempY = -1 * velocity * cos(this.angle);
                     velX = tempX.intValue();
                     velY = tempY.intValue();
-                    y = tempObject.y - HEIGHT;
+                    y = tempObject.y - height;
                 }
             }
             else if(tempObject.id != ID.Ball){
@@ -104,11 +108,11 @@ public class Ball extends GameObject {
 
     @Override
     int getWidth() {
-        return WIDTH;
+        return width;
     }
 
     @Override
     int getHeight() {
-        return HEIGHT;
+        return height;
     }
 }

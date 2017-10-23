@@ -2,20 +2,20 @@ import java.awt.*;
 
 public abstract class GameObject {
 
-    int x,y;
+    protected int x = 0, y = 0;
     protected ID id;
     protected int velX=0, velY=0;
     protected boolean allowMovement = true;
     protected int boardWidth, boardHeight;
     protected Handler handler;
+    protected Image image;
 
-    GameObject(int x, int y, Handler handler, ID id){
-        this.x = x;
-        this.y = y;
+    GameObject(Handler handler, ID id, Image image){
         this.handler = handler;
         this.boardWidth = handler.getBoardWidth();
         this.boardHeight = handler.getBoardHeight();
         this.id = id;
+        this.image = image;
     }
 
     void setAllowMovement(boolean allowMovement) {
