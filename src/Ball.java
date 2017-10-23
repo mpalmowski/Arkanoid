@@ -4,9 +4,8 @@ import static java.lang.Math.*;
 
 public class Ball extends GameObject {
 
-    private static final int velocity = 8;
+    private static final int velocity = 7;
     private double angle = 0;
-    private int width, height;
 
     Ball(Handler handler, ID id, Image image) {
         super(handler, id, image);
@@ -91,16 +90,17 @@ public class Ball extends GameObject {
             else if(tempObject.id != ID.Ball){
                 if(getBounds().intersects(tempObject.getBounds())){
                     Rectangle tempRectangle = getBounds().intersection(tempObject.getBounds());
-                    if(tempRectangle.x > tempRectangle.y){
+                    if(tempRectangle.height > tempRectangle.width){
                         velX *= -1;
                     }
-                    else if(tempRectangle.y > tempRectangle.x){
+                    else if(tempRectangle.width > tempRectangle.height){
                         velY *= -1;
                     }
                     else{
                         velX *= -1;
                         velY *= -1;
                     }
+                    tempObject.vanish();
                 }
             }
         }

@@ -2,21 +2,16 @@ import java.awt.*;
 
 class Brick extends GameObject{
 
-    private int width = 100, height = 50;
-
-    Brick(int x, int y, Handler handler, ID id, Image image) {
+    Brick(Handler handler, ID id, Image image) {
         super(handler, id, image);
 
-        this.width = handler.getBoardWidth()/6;
+        this.width = handler.getBoardWidth()/8;
         this.height = this.width / 2;
-        this.x = x;
-        this.y = y;
     }
 
     @Override
     public void render(Graphics graphics) {
-        graphics.setColor(Color.BLUE);
-        graphics.fillRect(x, y, width, height);
+        graphics.drawImage(image.getBufferedImage(), x, y, width, height, null);
     }
 
     @Override

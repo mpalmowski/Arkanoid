@@ -22,7 +22,8 @@ class Handler {
 
     void render(Graphics graphics){
         for (GameObject tempObject : objects) {
-            tempObject.render(graphics);
+            if(tempObject.exists)
+                tempObject.render(graphics);
         }
     }
 

@@ -2,8 +2,6 @@ import java.awt.*;
 
 public class Paddle extends GameObject{
 
-    private int width, height;
-
     public Paddle(Handler handler, ID id, Image image) {
         super(handler, id, image);
         this.width = handler.getBoardWidth()/6;

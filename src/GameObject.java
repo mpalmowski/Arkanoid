@@ -3,12 +3,14 @@ import java.awt.*;
 public abstract class GameObject {
 
     protected int x = 0, y = 0;
+    protected int width =0, height = 0;
     protected ID id;
     protected int velX=0, velY=0;
     protected boolean allowMovement = true;
     protected int boardWidth, boardHeight;
     protected Handler handler;
     protected Image image;
+    protected boolean exists = true;
 
     GameObject(Handler handler, ID id, Image image){
         this.handler = handler;
@@ -40,6 +42,14 @@ public abstract class GameObject {
     abstract int getWidth();
 
     abstract int getHeight();
+
+    void vanish(){
+        exists = false;
+        x = 0;
+        y = 0;
+        width = 0;
+        height = 0;
+    }
 
     int getX() {
         return x;

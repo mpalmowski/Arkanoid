@@ -23,6 +23,8 @@ public class Game extends Canvas implements Runnable{
         handler.setBoardHeight(boardHeight);
 
         addObjects();
+
+        start();
     }
 
     private void getBoardDimensions(){
@@ -36,6 +38,20 @@ public class Game extends Canvas implements Runnable{
 
         Image ballImage = new Image("Ball.png");
         handler.addObject(new Ball(handler, ID.Ball, ballImage));
+
+        int breakBetweenBricks = boardWidth/8*2/7;
+        for(Integer i=1; i<=5; i++){
+            for (int j=1; j<=6; j++){
+                String filename = "Brick" + i.toString() + ".png";
+                Image brickImage = new Image(filename);
+                Brick brick = new Brick(handler, ID.Brick, brickImage);
+                int brickX = (j-1)*brick.getWidth() + j*breakBetweenBricks;
+                int brickY = (i-1)*brick.getHeight() + i*breakBetweenBricks;
+                brick.setX(brickX);
+                brick.setY(brickY);
+                handler.addObject(brick);
+            }
+        }
     }
 
     synchronized void start(){
