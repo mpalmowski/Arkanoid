@@ -5,7 +5,7 @@ class Window extends Canvas {
 
     private JFrame frame;
 
-    Window(int width, int height, String title, Game game){
+    Window(int width, int height, String title, Controller controller){
         frame = new JFrame(title);
         Dimension dimension = new Dimension(width, height);
 
@@ -16,7 +16,7 @@ class Window extends Canvas {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-        frame.add(game);
+        frame.add(controller);
         frame.setVisible(true);
     }
 

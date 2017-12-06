@@ -2,35 +2,30 @@ import java.awt.*;
 
 public class Paddle extends GameObject{
 
-    public Paddle(Handler handler, ID id, Image image) {
+    Paddle(Handler handler, ID id, Image image) {
         super(handler, id, image);
         this.width = handler.getBoardWidth()/6;
         this.height = this.width/5;
-        this.x = handler.getBoardWidth()/2 - width/2;
-        this.y = handler.getBoardHeight() - height - 2;
+        this.x = boardWidth/2 - width/2;
+        this.y = boardHeight - height - boardHeight/20;
     }
 
     @Override
     public void render(Graphics graphics) {
-        graphics.drawImage(image.getBufferedImage(), x, y, width, height, null);
+        graphics.drawImage(image.getBufferedImage(), x.intValue(), y.intValue(), width.intValue(), height.intValue(), null);
     }
 
     @Override
     public void clamp() {
-        if(x > boardWidth - width)
-            x = boardWidth - width;
-        else if(x < 0)
-            x = 0;
-
-        if(y > boardHeight - height)
-            y = boardHeight - height;
-        else if(y < 0)
-            y = 0;
+        if(x > boardWidth*29/30 - width)
+            x = boardWidth*29/30 - width;
+        else if(x < boardWidth/30)
+            x = boardWidth/30;
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
     }
 
     @Override
@@ -39,12 +34,7 @@ public class Paddle extends GameObject{
     }
 
     @Override
-    int getWidth() {
+    double getWidth() {
         return width;
-    }
-
-    @Override
-    int getHeight() {
-        return height;
     }
 }

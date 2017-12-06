@@ -19,11 +19,11 @@ public class KeyInput extends KeyAdapter {
 
         if(keyCode == KeyEvent.VK_LEFT){
             GameObject tempObject = handler.objects.get(0);
-            tempObject.setVelX(-5);
+            tempObject.setVelX(-5.0);
         }
         else if(keyCode == KeyEvent.VK_RIGHT){
             GameObject tempObject = handler.objects.get(0);
-            tempObject.setVelX(5);
+            tempObject.setVelX(5.0);
         }
         else if(keyCode == KeyEvent.VK_UP){
             GameObject tempObject = handler.objects.get(1);
@@ -37,7 +37,7 @@ public class KeyInput extends KeyAdapter {
 
         if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT){
             GameObject tempObject = handler.objects.get(0);
-            tempObject.setVelX(0);
+            tempObject.setVelX(0.0);
         }
     }
 }

@@ -2,16 +2,16 @@ import java.awt.*;
 
 class Brick extends GameObject{
 
-    Brick(Handler handler, ID id, Image image) {
+    Brick(double width, double height, Handler handler, ID id, Image image) {
         super(handler, id, image);
 
-        this.width = handler.getBoardWidth()/8;
-        this.height = this.width / 2;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
     public void render(Graphics graphics) {
-        graphics.drawImage(image.getBufferedImage(), x, y, width, height, null);
+        graphics.drawImage(image.getBufferedImage(), x.intValue(), y.intValue(), width.intValue(), height.intValue(), null);
     }
 
     @Override
@@ -21,7 +21,7 @@ class Brick extends GameObject{
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
     }
 
     @Override
@@ -30,12 +30,7 @@ class Brick extends GameObject{
     }
 
     @Override
-    int getWidth() {
+    double getWidth() {
         return width;
-    }
-
-    @Override
-    int getHeight() {
-        return height;
     }
 }

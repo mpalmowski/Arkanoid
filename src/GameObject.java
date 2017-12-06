@@ -1,16 +1,16 @@
 import java.awt.*;
 
-public abstract class GameObject {
+abstract class GameObject {
 
-    protected int x = 0, y = 0;
-    protected int width =0, height = 0;
-    protected ID id;
-    protected int velX=0, velY=0;
-    protected boolean allowMovement = true;
-    protected int boardWidth, boardHeight;
-    protected Handler handler;
-    protected Image image;
-    protected boolean exists = true;
+    Double x = 0.0, y = 0.0;
+    Double width =0.0, height = 0.0;
+    ID id;
+    double velX=0.0, velY=0.0;
+    boolean allowMovement = true;
+    double boardWidth, boardHeight;
+    Handler handler;
+    Image image;
+    boolean exists = true;
 
     GameObject(Handler handler, ID id, Image image){
         this.handler = handler;
@@ -39,55 +39,29 @@ public abstract class GameObject {
 
     abstract void collision();
 
-    abstract int getWidth();
-
-    abstract int getHeight();
+    abstract double getWidth();
 
     void vanish(){
         exists = false;
-        x = 0;
-        y = 0;
-        width = 0;
-        height = 0;
+        x = 0.0;
+        y = 0.0;
+        width = 0.0;
+        height = 0.0;
     }
 
-    int getX() {
+    double getX() {
         return x;
     }
 
-    void setX(int x) {
+    void setX(double x) {
         this.x = x;
     }
 
-    int getY() {
-        return y;
-    }
-
-    void setY(int y) {
+    void setY(double y) {
         this.y = y;
     }
 
-    ID getId() {
-        return id;
-    }
-
-    void setId(ID id) {
-        this.id = id;
-    }
-
-    int getVelX() {
-        return velX;
-    }
-
-    void setVelX(int velX) {
+    void setVelX(double velX) {
         this.velX = velX;
-    }
-
-    int getVelY() {
-        return velY;
-    }
-
-    void setVelY(int velY) {
-        this.velY = velY;
     }
 }

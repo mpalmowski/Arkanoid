@@ -1,17 +1,16 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Game extends Canvas implements Runnable{
+public class Controller extends Canvas implements Runnable{
 
+    private static final Integer WIDTH = 480, HEIGHT = 600;
     private Thread thread;
     private Handler handler;
     private boolean running = false;
     private Insets windowInsets;
+    private double boardWidth, boardHeight;
 
-    private static final int WIDTH = 640, HEIGHT = 640;
-    private int boardWidth, boardHeight;
-
-    Game(){
+    Controller(){
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
 
@@ -28,33 +27,45 @@ public class Game extends Canvas implements Runnable{
     }
 
     private void getBoardDimensions(){
-        boardHeight = HEIGHT - windowInsets.top - windowInsets.bottom;
-        boardWidth = WIDTH - windowInsets.left - windowInsets.right;
+        boardHeight = HEIGHT.doubleValue() - windowInsets.top - windowInsets.bottom;
+        boardWidth = WIDTH.doubleValue() - windowInsets.left - windowInsets.right;
     }
 
     private void addObjects(){
-        Image paddleImage = new Image("Paddle.png");
+        Image backgroundImage = new Image("RetroBg.png");
+        handler.setBackGround(new Background(handler, backgroundImage));
+
+        render();
+
+        Image paddleImage = new Image("RetroPaddle.png");
         handler.addObject(new Paddle(handler, ID.Paddle, paddleImage));
 
-        Image ballImage = new Image("Ball.png");
+        Image ballImage = new Image("RetroBall.png");
         handler.addObject(new Ball(handler, ID.Ball, ballImage));
 
-        int breakBetweenBricks = boardWidth/8*2/7;
+        render();
+
+        double breakBetweenBricks = boardWidth/140;
+        double leftMargin = boardWidth/25;
+        double upperMargin = boardHeight/6;
+        double brickWidth = (boardWidth - 10*breakBetweenBricks - 2*leftMargin)/9;
+        double brickHeight = brickWidth/2;
         for(Integer i=1; i<=5; i++){
-            for (int j=1; j<=6; j++){
+            for (int j=1; j<=9; j++){
                 String filename = "Brick" + i.toString() + ".png";
                 Image brickImage = new Image(filename);
-                Brick brick = new Brick(handler, ID.Brick, brickImage);
-                int brickX = (j-1)*brick.getWidth() + j*breakBetweenBricks;
-                int brickY = (i-1)*brick.getHeight() + i*breakBetweenBricks;
+                Brick brick = new Brick(brickWidth, brickHeight, handler, ID.Brick, brickImage);
+                double brickX = (j-1)*brickWidth + j*breakBetweenBricks + leftMargin;
+                double brickY = (i-1)*brickHeight + i*breakBetweenBricks + upperMargin;
                 brick.setX(brickX);
                 brick.setY(brickY);
                 handler.addObject(brick);
+                render();
             }
         }
     }
 
-    synchronized void start(){
+    private synchronized void start(){
         thread = new Thread(this);
         thread.start();
         running = true;
@@ -88,7 +99,6 @@ public class Game extends Canvas implements Runnable{
                 framesPerSecond = 0;
             }
         }
-
         stop();
     }
 

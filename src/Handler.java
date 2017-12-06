@@ -3,15 +3,17 @@ import java.util.LinkedList;
 
 class Handler {
 
+    private Background background = null;
+
     LinkedList<GameObject> objects = new LinkedList<>();
-    private int boardWidth = 0, boardHeight = 0;
+    private double boardWidth = 0.0, boardHeight = 0.0;
 
     void addObject(GameObject object){
         this.objects.add(object);
     }
 
-    void removeObject(GameObject object){
-        this.objects.remove(object);
+    void setBackGround(Background background){
+        this.background = background;
     }
 
     void tick(){
@@ -21,25 +23,28 @@ class Handler {
     }
 
     void render(Graphics graphics){
+        if(background != null)
+            background.render(graphics);
+
         for (GameObject tempObject : objects) {
             if(tempObject.exists)
                 tempObject.render(graphics);
         }
     }
 
-    public int getBoardWidth() {
+    double getBoardWidth() {
         return boardWidth;
     }
 
-    public void setBoardWidth(int boardWidth) {
+    void setBoardWidth(double boardWidth) {
         this.boardWidth = boardWidth;
     }
 
-    public int getBoardHeight() {
+    double getBoardHeight() {
         return boardHeight;
     }
 
-    public void setBoardHeight(int boardHeight) {
+    void setBoardHeight(double boardHeight) {
         this.boardHeight = boardHeight;
     }
 }
