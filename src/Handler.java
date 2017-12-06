@@ -36,15 +36,12 @@ class Handler {
         return boardWidth;
     }
 
-    void setBoardWidth(double boardWidth) {
+    void setBoardDimensions(double boardWidth, double boardHeight) {
         this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
     }
 
     double getBoardHeight() {
         return boardHeight;
-    }
-
-    void setBoardHeight(double boardHeight) {
-        this.boardHeight = boardHeight;
     }
 }
