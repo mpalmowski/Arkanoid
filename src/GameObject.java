@@ -3,16 +3,16 @@ import java.awt.*;
 abstract class GameObject {
 
     Double x = 0.0, y = 0.0;
-    Double width =0.0, height = 0.0;
+    Double width = 0.0, height = 0.0;
     ID id;
-    double velX=0.0, velY=0.0;
+    double velX = 0.0, velY = 0.0;
     boolean allowMovement = true;
     double boardWidth, boardHeight;
     Handler handler;
     Image image;
     boolean exists = true;
 
-    GameObject(Handler handler, ID id, Image image){
+    GameObject(Handler handler, ID id, Image image) {
         this.handler = handler;
         this.boardWidth = handler.getBoardWidth();
         this.boardHeight = handler.getBoardHeight();
@@ -24,7 +24,7 @@ abstract class GameObject {
         this.allowMovement = allowMovement;
     }
 
-    void tick(){
+    void tick() {
         this.x += velX;
         this.y += velY;
         collision();
@@ -41,7 +41,7 @@ abstract class GameObject {
 
     abstract double getWidth();
 
-    void vanish(){
+    void vanish() {
         exists = false;
         x = 0.0;
         y = 0.0;

@@ -7,7 +7,7 @@ public class Paddle extends GameObject{
         this.width = handler.getBoardWidth()/6;
         this.height = this.width/5;
         this.x = boardWidth/2 - width/2;
-        this.y = boardHeight - height - boardHeight/20;
+        this.y = boardHeight - height - boardHeight/11;
     }
 
     @Override

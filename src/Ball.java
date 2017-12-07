@@ -10,8 +10,8 @@ public class Ball extends GameObject {
     Ball(Handler handler, ID id, Image image) {
         super(handler, id, image);
 
-        this.width = boardWidth/42;
-        this.height = boardWidth/42;
+        this.width = boardWidth/35;
+        this.height = boardWidth/35;
         this.x = boardWidth/2 - width/2;
         this.y = boardHeight*2/3;
 
@@ -31,6 +31,10 @@ public class Ball extends GameObject {
     public void tick() {
         if(allowMovement && velX==0 && velY==0)
             velY = velocity;
+        else if(!allowMovement){
+            velX = 0;
+            velY = 0;
+        }
         super.tick();
     }
 
