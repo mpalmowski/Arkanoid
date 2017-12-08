@@ -7,17 +7,23 @@ public class Controller extends Canvas implements Runnable {
     private View view;
     private Model model;
     private boolean running = false;
+    private State gameState = State.Menu;
 
     Controller() {
-        Handler handler = new Handler();
+        Game game = new Game();
+        Menu menu = new Menu();
 
-        view = new View(WIDTH, HEIGHT, handler);
-        model = new Model(handler);
+        view = new View(WIDTH, HEIGHT, game, menu);
+        model = new Model(game, menu);
 
         view.createWindow();
         view.getWindowParameters();
 
-        view.addKeyListener(new KeyInput(handler));
+        view.addKeyListener(new KeyListener(game));
+        view.addMouseListener(new MouseListener(menu, model, view));
+
+        view.setGameState(gameState);
+        model.setGameState(gameState);
 
         addObjects();
 
@@ -25,7 +31,13 @@ public class Controller extends Canvas implements Runnable {
     }
 
     private void addObjects() {
-        model.addBackground();
+        model.addMenuBackground();
+        view.render();
+
+        model.addMenuButtons();
+        view.render();
+
+        model.addGameBackground();
         view.render();
 
         model.addPaddle();

@@ -2,9 +2,10 @@ import java.awt.*;
 
 class Brick extends GameObject{
 
-    Brick(double width, double height, Handler handler, ID id, Image image) {
-        super(handler, id, image);
+    Brick(double width, double height, int scorePoints, Game game, ID id, Image image) {
+        super(game, id, image);
 
+        this.scorePoints = scorePoints;
         this.width = width;
         this.height = height;
     }

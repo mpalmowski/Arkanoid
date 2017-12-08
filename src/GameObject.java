@@ -8,14 +8,15 @@ abstract class GameObject {
     double velX = 0.0, velY = 0.0;
     boolean allowMovement = true;
     double boardWidth, boardHeight;
-    Handler handler;
+    Game game;
     Image image;
     boolean exists = true;
+    int scorePoints = 0;
 
-    GameObject(Handler handler, ID id, Image image) {
-        this.handler = handler;
-        this.boardWidth = handler.getBoardWidth();
-        this.boardHeight = handler.getBoardHeight();
+    GameObject(Game game, ID id, Image image) {
+        this.game = game;
+        this.boardWidth = game.getBoardWidth();
+        this.boardHeight = game.getBoardHeight();
         this.id = id;
         this.image = image;
     }
@@ -47,6 +48,7 @@ abstract class GameObject {
         y = 0.0;
         width = 0.0;
         height = 0.0;
+        game.increaseScore(scorePoints);
     }
 
     double getX() {

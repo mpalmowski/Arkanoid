@@ -2,9 +2,9 @@ import java.awt.*;
 
 public class Paddle extends GameObject{
 
-    Paddle(Handler handler, ID id, Image image) {
-        super(handler, id, image);
-        this.width = handler.getBoardWidth()/6;
+    Paddle(Game game, ID id, Image image) {
+        super(game, id, image);
+        this.width = game.getBoardWidth()/6;
         this.height = this.width/5;
         this.x = boardWidth/2 - width/2;
         this.y = boardHeight - height - boardHeight/11;

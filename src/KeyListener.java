@@ -1,13 +1,13 @@
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class KeyInput extends KeyAdapter {
+public class KeyListener extends KeyAdapter {
 
-    private Handler handler;
+    private Game game;
     private int keyCode;
 
-    KeyInput(Handler handler) {
-        this.handler = handler;
+    KeyListener(Game game) {
+        this.game = game;
     }
 
     @Override
@@ -18,15 +18,15 @@ public class KeyInput extends KeyAdapter {
             System.exit(0);
 
         if(keyCode == KeyEvent.VK_LEFT){
-            GameObject tempObject = handler.objects.get(0);
+            GameObject tempObject = game.objects.get(0);
             tempObject.setVelX(-5.0);
         }
         else if(keyCode == KeyEvent.VK_RIGHT){
-            GameObject tempObject = handler.objects.get(0);
+            GameObject tempObject = game.objects.get(0);
             tempObject.setVelX(5.0);
         }
         else if(keyCode == KeyEvent.VK_UP){
-            GameObject tempObject = handler.objects.get(1);
+            GameObject tempObject = game.objects.get(1);
             tempObject.setAllowMovement(true);
         }
     }
@@ -36,7 +36,7 @@ public class KeyInput extends KeyAdapter {
         keyCode = e.getKeyCode();
 
         if(keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT){
-            GameObject tempObject = handler.objects.get(0);
+            GameObject tempObject = game.objects.get(0);
             tempObject.setVelX(0.0);
         }
     }

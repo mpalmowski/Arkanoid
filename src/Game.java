@@ -1,12 +1,12 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-class Handler {
+class Game {
 
     private Background background = null;
-
     LinkedList<GameObject> objects = new LinkedList<>();
     private double boardWidth = 0.0, boardHeight = 0.0;
+    private int score = 0;
 
     void addObject(GameObject object){
         this.objects.add(object);
@@ -43,5 +43,13 @@ class Handler {
 
     double getBoardHeight() {
         return boardHeight;
+    }
+
+    void increaseScore(int scoredPoints){
+        score += scoredPoints;
+    }
+
+    int getScore(){
+        return score;
     }
 }

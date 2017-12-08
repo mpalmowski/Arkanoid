@@ -1,35 +1,69 @@
 class Model {
-    private static final String BGPATH = "RetroBg.png";
+    private Menu menu;
+    private static final String MENUBGPATH = "MenuBg.png";
+    private static final int BUTTONS = 3;
+    private double breakBetweenButtons, upperButtonMargin, lowerButtonMargin, sideButtonMargin;
+    private Double buttonWidth, buttonHeight;
+    private String[] buttonTexts = new String[]{
+            "PLAYER 1",
+            "START",
+            "RANKING"
+    };
+    private Game game;
+    private static final String GAMEBGPATH = "RetroBg.png";
     private static final String PADDLEPATH = "RetroPaddle.png";
     private static final String BALLPATH = "RetroBall.png";
     private static final int BRICKROWS = 5, BRICKSINROW = 9;
-    Handler handler;
-    private double breakBetweenBricks, leftMargin, upperMargin, brickWidth, brickHeight;
+    private double breakBetweenBricks, sideBrickMargin, upperBrickMargin, brickWidth, brickHeight;
+    private State gameState;
 
-    Model(Handler handler) {
-        this.handler = handler;
+    Model(Game game, Menu menu) {
+        this.game = game;
+        this.menu = menu;
     }
 
-    void addBackground(){
-        Image backgroundImage = new Image(BGPATH);
-        handler.setBackGround(new Background(handler, backgroundImage));
+    void addMenuBackground(){
+        Image backgroundImage = new Image(MENUBGPATH);
+        menu.setBackGround(new Background(game, backgroundImage));
+    }
+
+    void addMenuButtons(){
+        breakBetweenButtons = game.getBoardHeight()/15;
+        upperButtonMargin = game.getBoardHeight()/2.5;
+        lowerButtonMargin = game.getBoardHeight()/10;
+        sideButtonMargin = game.getBoardWidth()/4;
+        buttonWidth = game.getBoardWidth() - 2*sideButtonMargin;
+        buttonHeight = (game.getBoardHeight() - upperButtonMargin - lowerButtonMargin - (BUTTONS-1)*breakBetweenButtons)/BUTTONS;
+
+        for (int i=0; i<BUTTONS; i++){
+            Double buttonX, buttonY;
+            buttonX = sideButtonMargin;
+            buttonY = upperButtonMargin + i*buttonHeight + i*breakBetweenButtons;
+            SimpleButton button = new SimpleButton(buttonX.intValue(), buttonY.intValue(), buttonWidth, buttonHeight, buttonTexts[i]);
+            menu.addButton(button);
+        }
+    }
+
+    void addGameBackground(){
+        Image backgroundImage = new Image(GAMEBGPATH);
+        game.setBackGround(new Background(game, backgroundImage));
     }
 
     void addPaddle(){
         Image paddleImage = new Image(PADDLEPATH);
-        handler.addObject(new Paddle(handler, ID.Paddle, paddleImage));
+        game.addObject(new Paddle(game, ID.Paddle, paddleImage));
     }
 
     void addBall(){
         Image ballImage = new Image(BALLPATH);
-        handler.addObject(new Ball(handler, ID.Ball, ballImage));
+        game.addObject(new Ball(game, ID.Ball, ballImage));
     }
 
     void calculateBricksPositions(){
-        leftMargin = handler.getBoardWidth()/25;
-        upperMargin = handler.getBoardHeight()/8;
-        breakBetweenBricks = handler.getBoardWidth()/150;
-        brickWidth = (handler.getBoardWidth() - (BRICKSINROW+1)*breakBetweenBricks - 2*leftMargin)/BRICKSINROW;
+        sideBrickMargin = game.getBoardWidth()/25;
+        upperBrickMargin = game.getBoardHeight()/8;
+        breakBetweenBricks = game.getBoardWidth()/150;
+        brickWidth = (game.getBoardWidth() - (BRICKSINROW+1)*breakBetweenBricks - 2* sideBrickMargin)/BRICKSINROW;
         brickHeight = brickWidth/2;
     }
 
@@ -38,17 +72,22 @@ class Model {
             for (int j=1; j<=BRICKSINROW; j++){
                 String filename = "Brick" + i.toString() + ".png";
                 Image brickImage = new Image(filename);
-                Brick brick = new Brick(brickWidth, brickHeight, handler, ID.Brick, brickImage);
-                double brickX = (j-1)*brickWidth + j*breakBetweenBricks + leftMargin;
-                double brickY = (i-1)*brickHeight + i*breakBetweenBricks + upperMargin;
+                Brick brick = new Brick(brickWidth, brickHeight, 100, game, ID.Brick, brickImage);
+                double brickX = (j-1)*brickWidth + j*breakBetweenBricks + sideBrickMargin;
+                double brickY = (i-1)*brickHeight + i*breakBetweenBricks + upperBrickMargin;
                 brick.setX(brickX);
                 brick.setY(brickY);
-                handler.addObject(brick);
+                game.addObject(brick);
             }
         }
     }
 
     void tick(){
-        handler.tick();
+        if(gameState == State.Game)
+            game.tick();
+    }
+
+    void setGameState(State gameState) {
+        this.gameState = gameState;
     }
 }

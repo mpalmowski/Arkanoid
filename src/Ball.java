@@ -7,8 +7,8 @@ public class Ball extends GameObject {
     private static final double velocity = 5;
     private double angle = 0;
 
-    Ball(Handler handler, ID id, Image image) {
-        super(handler, id, image);
+    Ball(Game game, ID id, Image image) {
+        super(game, id, image);
 
         this.width = boardWidth/35;
         this.height = boardWidth/35;
@@ -22,9 +22,7 @@ public class Ball extends GameObject {
         double ballCenter = x + width /2;
         double paddleCenter = paddle.getX() + paddle.getWidth()/2;
         double pointOfCollision = ballCenter - paddleCenter;
-        double radius = paddle.getWidth() * sqrt(2) / 2;
-        double sinus = pointOfCollision/radius;
-        return asin(sinus);
+        return pointOfCollision/paddle.getWidth();
     }
 
     @Override
@@ -56,9 +54,8 @@ public class Ball extends GameObject {
             angle *= -1;
         }
 
-        if(y > boardHeight - height){
-            y = boardHeight - height;
-            velY *= -1;
+        if(y > boardHeight*59/64 - height){
+            setAllowMovement(false);
         }
         else if(y < boardHeight/24){
             y = boardHeight/24;
@@ -73,7 +70,7 @@ public class Ball extends GameObject {
 
     @Override
     void collision() {
-        for (GameObject tempObject : handler.objects) {
+        for (GameObject tempObject : game.objects) {
             if(tempObject.id == ID.Paddle){
                 if(getBounds().intersects(tempObject.getBounds())){
                     double angle = calculateAngle(tempObject);
@@ -89,6 +86,7 @@ public class Ball extends GameObject {
                     velX = tempX;
                     velY = tempY;
                     y = tempObject.y - height;
+                    break;
                 }
             }
             else if(tempObject.id != ID.Ball){
@@ -105,6 +103,7 @@ public class Ball extends GameObject {
                         velY *= -1;
                     }
                     tempObject.vanish();
+                    break;
                 }
             }
         }
