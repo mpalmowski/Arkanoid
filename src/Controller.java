@@ -14,13 +14,13 @@ public class Controller extends Canvas implements Runnable {
         Menu menu = new Menu();
 
         view = new View(WIDTH, HEIGHT, game, menu);
-        model = new Model(game, menu);
+        model = new Model(this, game, menu);
 
         view.createWindow();
         view.getWindowParameters();
 
-        view.addKeyListener(new KeyListener(game));
-        view.addMouseListener(new MouseListener(menu, model, view));
+        view.addKeyListener(new KeyListener(model));
+        view.addMouseListener(new MouseListener(model));
 
         view.setGameState(gameState);
         model.setGameState(gameState);
@@ -28,6 +28,12 @@ public class Controller extends Canvas implements Runnable {
         addObjects();
 
         start();
+    }
+
+    void setGameState(State gameState){
+        this.gameState = gameState;
+        view.setGameState(gameState);
+        model.setGameState(gameState);
     }
 
     private void addObjects() {

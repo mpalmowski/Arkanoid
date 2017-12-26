@@ -21,17 +21,7 @@ class Brick extends GameObject{
     }
 
     @Override
-    public Rectangle getBounds() {
-        return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
-    }
-
-    @Override
     void collision() {
 
-    }
-
-    @Override
-    double getWidth() {
-        return width;
     }
 }

@@ -24,11 +24,6 @@ public class Paddle extends GameObject{
     }
 
     @Override
-    public Rectangle getBounds() {
-        return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
-    }
-
-    @Override
     void collision() {
 
     }

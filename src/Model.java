@@ -1,4 +1,8 @@
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 class Model {
+    private Controller controller;
     private Menu menu;
     private static final String MENUBGPATH = "MenuBg.png";
     private static final int BUTTONS = 3;
@@ -9,6 +13,11 @@ class Model {
             "START",
             "RANKING"
     };
+    private ButtonFunction[] buttonFunctions = new ButtonFunction[]{
+            ButtonFunction.PlayerName,
+            ButtonFunction.Start,
+            ButtonFunction.Ranking
+    };
     private Game game;
     private static final String GAMEBGPATH = "RetroBg.png";
     private static final String PADDLEPATH = "RetroPaddle.png";
@@ -17,64 +26,65 @@ class Model {
     private double breakBetweenBricks, sideBrickMargin, upperBrickMargin, brickWidth, brickHeight;
     private State gameState;
 
-    Model(Game game, Menu menu) {
+    Model(Controller controller, Game game, Menu menu) {
+        this.controller = controller;
         this.game = game;
         this.menu = menu;
     }
 
-    void addMenuBackground(){
+    void addMenuBackground() {
         Image backgroundImage = new Image(MENUBGPATH);
         menu.setBackGround(new Background(game, backgroundImage));
     }
 
-    void addMenuButtons(){
-        breakBetweenButtons = game.getBoardHeight()/15;
-        upperButtonMargin = game.getBoardHeight()/2.5;
-        lowerButtonMargin = game.getBoardHeight()/10;
-        sideButtonMargin = game.getBoardWidth()/4;
-        buttonWidth = game.getBoardWidth() - 2*sideButtonMargin;
-        buttonHeight = (game.getBoardHeight() - upperButtonMargin - lowerButtonMargin - (BUTTONS-1)*breakBetweenButtons)/BUTTONS;
+    void addMenuButtons() {
+        breakBetweenButtons = game.getBoardHeight() / 15;
+        upperButtonMargin = game.getBoardHeight() / 2.5;
+        lowerButtonMargin = game.getBoardHeight() / 10;
+        sideButtonMargin = game.getBoardWidth() / 4;
+        buttonWidth = game.getBoardWidth() - 2 * sideButtonMargin;
+        buttonHeight = (game.getBoardHeight() - upperButtonMargin - lowerButtonMargin - (BUTTONS - 1) * breakBetweenButtons) / BUTTONS;
 
-        for (int i=0; i<BUTTONS; i++){
+        for (int i = 0; i < BUTTONS; i++) {
             Double buttonX, buttonY;
             buttonX = sideButtonMargin;
-            buttonY = upperButtonMargin + i*buttonHeight + i*breakBetweenButtons;
-            SimpleButton button = new SimpleButton(buttonX.intValue(), buttonY.intValue(), buttonWidth, buttonHeight, buttonTexts[i]);
+            buttonY = upperButtonMargin + i * buttonHeight + i * breakBetweenButtons;
+            SimpleButton button = new SimpleButton(buttonX.intValue(), buttonY.intValue(), buttonWidth, buttonHeight, buttonTexts[i], buttonFunctions[i]);
             menu.addButton(button);
         }
     }
 
-    void addGameBackground(){
+    void addGameBackground() {
         Image backgroundImage = new Image(GAMEBGPATH);
         game.setBackGround(new Background(game, backgroundImage));
     }
 
-    void addPaddle(){
+    void addPaddle() {
         Image paddleImage = new Image(PADDLEPATH);
         game.addObject(new Paddle(game, ID.Paddle, paddleImage));
     }
 
-    void addBall(){
+    void addBall() {
         Image ballImage = new Image(BALLPATH);
         game.addObject(new Ball(game, ID.Ball, ballImage));
     }
 
-    void calculateBricksPositions(){
-        sideBrickMargin = game.getBoardWidth()/25;
-        upperBrickMargin = game.getBoardHeight()/8;
-        breakBetweenBricks = game.getBoardWidth()/150;
-        brickWidth = (game.getBoardWidth() - (BRICKSINROW+1)*breakBetweenBricks - 2* sideBrickMargin)/BRICKSINROW;
-        brickHeight = brickWidth/2;
+    void calculateBricksPositions() {
+        sideBrickMargin = game.getBoardWidth() / 25;
+        upperBrickMargin = game.getBoardHeight() / 8;
+        breakBetweenBricks = game.getBoardWidth() / 150;
+        brickWidth = (game.getBoardWidth() - (BRICKSINROW + 1) * breakBetweenBricks - 2 * sideBrickMargin) / BRICKSINROW;
+        brickHeight = brickWidth / 2;
     }
 
-    void addBricks(){
-        for(Integer i=1; i<=BRICKROWS; i++){
-            for (int j=1; j<=BRICKSINROW; j++){
+    void addBricks() {
+        for (Integer i = 1; i <= BRICKROWS; i++) {
+            for (int j = 1; j <= BRICKSINROW; j++) {
                 String filename = "Brick" + i.toString() + ".png";
                 Image brickImage = new Image(filename);
                 Brick brick = new Brick(brickWidth, brickHeight, 100, game, ID.Brick, brickImage);
-                double brickX = (j-1)*brickWidth + j*breakBetweenBricks + sideBrickMargin;
-                double brickY = (i-1)*brickHeight + i*breakBetweenBricks + upperBrickMargin;
+                double brickX = (j - 1) * brickWidth + j * breakBetweenBricks + sideBrickMargin;
+                double brickY = (i - 1) * brickHeight + i * breakBetweenBricks + upperBrickMargin;
                 brick.setX(brickX);
                 brick.setY(brickY);
                 game.addObject(brick);
@@ -82,8 +92,52 @@ class Model {
         }
     }
 
-    void tick(){
-        if(gameState == State.Game)
+    void handleMousePressed(int x, int y) {
+        for (SimpleButton button : menu.buttons) {
+            Rectangle buttonBounds = button.getBounds();
+            if (buttonBounds.contains(x, y)) {
+                switch (button.getButtonFunction()) {
+                    case PlayerName:
+                        break;
+                    case Start:
+                        controller.setGameState(State.Game);
+                        break;
+                    case Ranking:
+                        break;
+                }
+            }
+        }
+    }
+
+    void handleKeyPressed(int keyCode) {
+        if (gameState == State.Game) {
+            if (keyCode == KeyEvent.VK_ESCAPE)
+                System.exit(0);
+
+            if (keyCode == KeyEvent.VK_LEFT) {
+                GameObject tempObject = game.objects.get(0);
+                tempObject.setVelX(-5.0);
+            } else if (keyCode == KeyEvent.VK_RIGHT) {
+                GameObject tempObject = game.objects.get(0);
+                tempObject.setVelX(5.0);
+            } else if (keyCode == KeyEvent.VK_UP) {
+                GameObject tempObject = game.objects.get(1);
+                tempObject.setAllowMovement(true);
+            }
+        }
+    }
+
+    void handleKeyReleased(int keyCode) {
+        if (gameState == State.Game) {
+            if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+                GameObject tempObject = game.objects.get(0);
+                tempObject.setVelX(0.0);
+            }
+        }
+    }
+
+    void tick() {
+        if (gameState == State.Game)
             game.tick();
     }
 

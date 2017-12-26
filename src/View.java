@@ -52,7 +52,6 @@ class View extends Canvas {
         double boardHeight = height.doubleValue() - windowInsets.top - windowInsets.bottom;
         double boardWidth = width.doubleValue() - windowInsets.left - windowInsets.right;
         game.setBoardDimensions(boardWidth, boardHeight);
-        menu.setBoardDimensions(boardWidth, boardHeight);
     }
 
     void setGameState(State gameState) {

@@ -5,13 +5,15 @@ class SimpleButton {
     private Double width=0.0, height=0.0;
     private String text;
     boolean exists = true;
+    ButtonFunction buttonFunction;
 
-    SimpleButton(int x, int y, Double width, Double height, String text) {
+    SimpleButton(int x, int y, Double width, Double height, String text, ButtonFunction buttonFunction) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.text = text;
+        this.buttonFunction = buttonFunction;
     }
 
     void render(Graphics graphics) {
@@ -27,5 +29,9 @@ class SimpleButton {
 
     Rectangle getBounds(){
         return new Rectangle(x, y, width.intValue(), height.intValue());
+    }
+
+    ButtonFunction getButtonFunction(){
+        return buttonFunction;
     }
 }

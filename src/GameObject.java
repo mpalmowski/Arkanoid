@@ -36,11 +36,23 @@ abstract class GameObject {
 
     abstract void clamp();
 
-    abstract Rectangle getBounds();
+    Rectangle getBounds(){
+        return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
+    }
+
+    Point getCenter(){
+        return new Point(x.intValue(), y.intValue());
+    }
 
     abstract void collision();
 
-    abstract double getWidth();
+    double getWidth(){
+        return width;
+    }
+
+    double getHeight(){
+        return height;
+    }
 
     void vanish() {
         exists = false;

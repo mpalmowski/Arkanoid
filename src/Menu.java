@@ -3,7 +3,6 @@ import java.util.LinkedList;
 
 class Menu {
     private Background background = null;
-    private double boardWidth = 0.0, boardHeight = 0.0;
     LinkedList<SimpleButton> buttons = new LinkedList<>();
 
     void setBackGround(Background background) {
@@ -12,11 +11,6 @@ class Menu {
 
     void addButton(SimpleButton button) {
         this.buttons.add(button);
-    }
-
-    void setBoardDimensions(double boardWidth, double boardHeight) {
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
     }
 
     void tick() {
