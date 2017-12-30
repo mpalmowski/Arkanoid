@@ -24,4 +24,9 @@ class Brick extends GameObject{
     void collision() {
 
     }
+
+    @Override
+    void reset() {
+        exists = true;
+    }
 }

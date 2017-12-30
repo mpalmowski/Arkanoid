@@ -1,4 +1,6 @@
 public enum State {
     Menu,
-    Game
+    Game,
+    NameChanging,
+    GameOver
 }

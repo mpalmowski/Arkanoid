@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.LinkedList;
 
 class Game {
+    public boolean running = true;
 
     private Background background = null;
     LinkedList<GameObject> objects = new LinkedList<>();
@@ -51,5 +52,16 @@ class Game {
 
     int getScore(){
         return score;
+    }
+
+    void reset(){
+        for (GameObject tempObject : objects) {
+            tempObject.reset();
+        }
+        running = true;
+    }
+
+    void end(){
+        running = false;
     }
 }

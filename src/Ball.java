@@ -55,6 +55,7 @@ public class Ball extends GameObject {
 
         if (y > boardHeight * 59 / 64 - height) {
             setAllowMovement(false);
+            game.end();
         } else if (y < boardHeight / 24) {
             y = boardHeight / 24;
             velY *= -1;
@@ -102,6 +103,12 @@ public class Ball extends GameObject {
         }
         velX *= vectorX;
         velY *= vectorY;
+    }
+
+    @Override
+    void reset() {
+        this.x = boardWidth / 2 - width / 2;
+        this.y = boardHeight * 2 / 3;
     }
 
     @Override

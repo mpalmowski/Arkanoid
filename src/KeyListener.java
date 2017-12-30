@@ -3,19 +3,19 @@ import java.awt.event.KeyEvent;
 
 public class KeyListener extends KeyAdapter {
 
-    private Model model;
+    private Controller controller;
 
-    KeyListener(Model model) {
-        this.model = model;
+    KeyListener(Controller controller) {
+        this.controller = controller;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        model.handleKeyPressed(e.getKeyCode());
+        controller.handleKeyPressed(e.getKeyCode());
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        model.handleKeyReleased(e.getKeyCode());
+        controller.handleKeyReleased(e.getKeyCode());
     }
 }

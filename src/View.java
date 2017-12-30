@@ -35,7 +35,22 @@ class View extends Canvas {
                 graphics.drawString(scoreOutput, width / 50, height - height / 11);
                 break;
             case Menu:
+            case NameChanging:
                 menu.render(graphics);
+                break;
+            case GameOver:
+                game.render(graphics);
+                graphics.setColor(Color.WHITE);
+                double textWidth = graphics.getFontMetrics().getStringBounds("GAME OVER", graphics).getWidth();
+                double textHeight = graphics.getFontMetrics().getStringBounds("GAME OVER", graphics).getHeight();
+                Double textX = (width - textWidth)/2;
+                Double textY = (height - textHeight)/2 + textHeight;
+                graphics.drawString("GAME OVER", textX.intValue(), textY.intValue());
+                textWidth = graphics.getFontMetrics().getStringBounds("PRESS ENTER TO CONTINUE", graphics).getWidth();
+                textHeight = graphics.getFontMetrics().getStringBounds("PRESS ENTER TO CONTINUE", graphics).getHeight();
+                textX = (width - textWidth)/2;
+                textY += textHeight + width/10;
+                graphics.drawString("PRESS ENTER TO CONTINUE", textX.intValue(), textY.intValue());
                 break;
         }
 

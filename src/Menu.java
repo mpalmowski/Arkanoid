@@ -13,6 +13,10 @@ class Menu {
         this.buttons.add(button);
     }
 
+    void setPlayerName(String playerName){
+        buttons.get(0).setText(playerName);
+    }
+
     void tick() {
 
     }

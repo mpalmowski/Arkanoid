@@ -29,6 +29,12 @@ public class Paddle extends GameObject{
     }
 
     @Override
+    void reset() {
+        this.x = boardWidth/2 - width/2;
+        this.y = boardHeight - height - boardHeight/11;
+    }
+
+    @Override
     double getWidth() {
         return width;
     }

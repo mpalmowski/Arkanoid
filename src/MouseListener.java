@@ -2,15 +2,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MouseListener extends MouseAdapter {
-    private Model model;
+    private Controller controller;
 
-    MouseListener(Model model) {
-        this.model = model;
+    MouseListener(Controller controller) {
+        this.controller = controller;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        model.handleMousePressed(e.getX(), e.getY());
+        controller.handleMousePressed(e.getX(), e.getY());
     }
 
     @Override

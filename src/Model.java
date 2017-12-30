@@ -9,7 +9,7 @@ class Model {
     private double breakBetweenButtons, upperButtonMargin, lowerButtonMargin, sideButtonMargin;
     private Double buttonWidth, buttonHeight;
     private String[] buttonTexts = new String[]{
-            "PLAYER 1",
+            "",
             "START",
             "RANKING"
     };
@@ -92,53 +92,50 @@ class Model {
         }
     }
 
-    void handleMousePressed(int x, int y) {
-        for (SimpleButton button : menu.buttons) {
-            Rectangle buttonBounds = button.getBounds();
-            if (buttonBounds.contains(x, y)) {
-                switch (button.getButtonFunction()) {
-                    case PlayerName:
-                        break;
-                    case Start:
-                        controller.setGameState(State.Game);
-                        break;
-                    case Ranking:
-                        break;
-                }
-            }
-        }
-    }
-
     void handleKeyPressed(int keyCode) {
-        if (gameState == State.Game) {
-            if (keyCode == KeyEvent.VK_ESCAPE)
-                System.exit(0);
+        if (keyCode == KeyEvent.VK_ESCAPE)
+            System.exit(0);
 
-            if (keyCode == KeyEvent.VK_LEFT) {
-                GameObject tempObject = game.objects.get(0);
-                tempObject.setVelX(-5.0);
-            } else if (keyCode == KeyEvent.VK_RIGHT) {
-                GameObject tempObject = game.objects.get(0);
-                tempObject.setVelX(5.0);
-            } else if (keyCode == KeyEvent.VK_UP) {
-                GameObject tempObject = game.objects.get(1);
-                tempObject.setAllowMovement(true);
-            }
+        if (keyCode == KeyEvent.VK_LEFT) {
+            GameObject tempObject = game.objects.get(0);
+            tempObject.setVelX(-5.0);
+        } else if (keyCode == KeyEvent.VK_RIGHT) {
+            GameObject tempObject = game.objects.get(0);
+            tempObject.setVelX(5.0);
+        } else if (keyCode == KeyEvent.VK_UP) {
+            GameObject tempObject = game.objects.get(1);
+            tempObject.setAllowMovement(true);
         }
     }
 
     void handleKeyReleased(int keyCode) {
-        if (gameState == State.Game) {
-            if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
-                GameObject tempObject = game.objects.get(0);
-                tempObject.setVelX(0.0);
-            }
+        switch (gameState) {
+            case Game:
+                if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+                    GameObject tempObject = game.objects.get(0);
+                    tempObject.setVelX(0.0);
+                }
+                break;
         }
     }
 
+    void setPlayerName(String playerName){
+        menu.setPlayerName(playerName);
+    }
+
     void tick() {
-        if (gameState == State.Game)
-            game.tick();
+        switch (gameState) {
+            case Game:
+                game.tick();
+                if(game.running == false){
+                    controller.gameOver();
+                }
+                break;
+        }
+    }
+
+    void reset(){
+        game.reset();
     }
 
     void setGameState(State gameState) {

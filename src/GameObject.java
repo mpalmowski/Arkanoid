@@ -37,11 +37,10 @@ abstract class GameObject {
     abstract void clamp();
 
     Rectangle getBounds(){
-        return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
-    }
-
-    Point getCenter(){
-        return new Point(x.intValue(), y.intValue());
+        if(exists == true)
+            return new Rectangle(x.intValue(), y.intValue(), width.intValue(), height.intValue());
+        else
+            return new Rectangle(0,0,0,0);
     }
 
     abstract void collision();
@@ -50,18 +49,12 @@ abstract class GameObject {
         return width;
     }
 
-    double getHeight(){
-        return height;
-    }
-
     void vanish() {
         exists = false;
-        x = 0.0;
-        y = 0.0;
-        width = 0.0;
-        height = 0.0;
         game.increaseScore(scorePoints);
     }
+
+    abstract void reset();
 
     double getX() {
         return x;
