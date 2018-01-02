@@ -4,20 +4,27 @@ import java.awt.event.KeyEvent;
 public class Controller implements Runnable {
 
     private static final Integer WIDTH = 450, HEIGHT = 600;
+    private static final String rankingFileName = "C:\\Users\\palma\\Desktop\\Programming\\workspace\\IntelliJ\\Arkanoid\\res\\Ranking.txt";
     private Thread thread;
     private View view;
     private Model model;
+    private Game game;
     private Menu menu;
     private boolean running = false;
     private State gameState = State.Menu;
-    private String playerName = "PLAYER 1";
+    private String playerName = "PLAYER1";
+    private String oldPlayerName = "";
+    private Ranking ranking;
 
     Controller() {
-        Game game = new Game();
+        game = new Game();
         menu = new Menu();
 
-        view = new View(WIDTH, HEIGHT, game, menu);
-        model = new Model(this, game, menu);
+        ranking = new Ranking(rankingFileName);
+        ranking.addPlayer(playerName);
+
+        view = new View(WIDTH, HEIGHT, game, menu, ranking);
+        model = new Model(this, game, menu, ranking);
 
         view.createWindow();
         view.getWindowParameters();
@@ -33,14 +40,18 @@ public class Controller implements Runnable {
         start();
     }
 
-    private void setGameState(State gameState){
+    private void setGameState(State gameState) {
         this.gameState = gameState;
         view.setGameState(gameState);
         model.setGameState(gameState);
     }
 
-    void gameOver(){
+    void gameOver() {
         setGameState(State.GameOver);
+        ranking.updateScore(playerName, game.getScore());
+        ranking.save();
+        playerName = "PLAYER1";
+        model.setPlayerName(playerName);
     }
 
     private void addObjects() {
@@ -48,19 +59,12 @@ public class Controller implements Runnable {
         view.render();
 
         model.addMenuButtons();
+        model.setPlayerName(playerName);
         view.render();
 
-        model.addGameBackground();
-        view.render();
+        model.addRankingBackground();
 
-        model.addPaddle();
-        view.render();
-
-        model.addBall();
-        view.render();
-
-        model.calculateBricksPositions();
-        model.addBricks();
+        model.addGameObjects();
     }
 
     private synchronized void start() {
@@ -107,6 +111,7 @@ public class Controller implements Runnable {
                 switch (button.getButtonFunction()) {
                     case PlayerName:
                         setGameState(State.NameChanging);
+                        oldPlayerName = playerName;
                         model.setPlayerName(playerName + "|");
                         break;
                     case Start:
@@ -114,40 +119,49 @@ public class Controller implements Runnable {
                         setGameState(State.Game);
                         break;
                     case Ranking:
+                        setGameState(State.Ranking);
                         break;
                 }
             }
         }
     }
 
-    void handleKeyPressed(int keyCode){
+    void handleKeyPressed(int keyCode) {
         switch (gameState) {
             case Game:
                 model.handleKeyPressed(keyCode);
                 break;
             case NameChanging:
-                if(keyCode == KeyEvent.VK_BACK_SPACE){
-                    if(playerName.length() > 0){
-                        playerName = playerName.substring(0, playerName.length()-1);
+                if (keyCode == KeyEvent.VK_BACK_SPACE) {
+                    if (playerName.length() > 0) {
+                        playerName = playerName.substring(0, playerName.length() - 1);
                     }
                     model.setPlayerName(playerName + "|");
-                }
-                else if(keyCode == KeyEvent.VK_ENTER){
+                } else if (keyCode == KeyEvent.VK_ENTER) {
                     model.setPlayerName(playerName);
+                    ranking.renamePlayer(oldPlayerName, playerName);
                     setGameState(State.Menu);
-                }
-                else if(keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z){
+                } else if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z || keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
                     playerName = playerName.concat(KeyEvent.getKeyText(keyCode));
+                    model.setPlayerName(playerName + "|");
+                }
+                else if(keyCode == KeyEvent.VK_SPACE){
+                    playerName = playerName.concat(" ");
                     model.setPlayerName(playerName + "|");
                 }
                 break;
             case GameOver:
                 setGameState(State.Menu);
                 break;
+            case Ranking:
+                if(keyCode == KeyEvent.VK_ESCAPE){
+                    setGameState(State.Menu);
+                }
+                break;
         }
     }
 
-    void handleKeyReleased(int keyCode){
+    void handleKeyReleased(int keyCode) {
         model.handleKeyReleased(keyCode);
     }
 

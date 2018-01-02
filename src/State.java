@@ -2,5 +2,6 @@ public enum State {
     Menu,
     Game,
     NameChanging,
-    GameOver
+    GameOver,
+    Ranking
 }

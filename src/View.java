@@ -5,14 +5,16 @@ class View extends Canvas {
     private Integer width, height;
     private Game game;
     private Menu menu;
+    private Ranking ranking;
     private Window window;
     private State gameState;
 
-    View(Integer width, Integer height, Game game, Menu menu) {
+    View(Integer width, Integer height, Game game, Menu menu, Ranking ranking) {
         this.width = width;
         this.height = height;
         this.game = game;
         this.menu = menu;
+        this.ranking = ranking;
     }
 
     void render() {
@@ -41,6 +43,8 @@ class View extends Canvas {
             case GameOver:
                 game.render(graphics);
                 graphics.setColor(Color.WHITE);
+                scoreOutput = "Score     " + game.getScore();
+                graphics.drawString(scoreOutput, width / 50, height - height / 11);
                 double textWidth = graphics.getFontMetrics().getStringBounds("GAME OVER", graphics).getWidth();
                 double textHeight = graphics.getFontMetrics().getStringBounds("GAME OVER", graphics).getHeight();
                 Double textX = (width - textWidth)/2;
@@ -51,6 +55,9 @@ class View extends Canvas {
                 textX = (width - textWidth)/2;
                 textY += textHeight + width/10;
                 graphics.drawString("PRESS ENTER TO CONTINUE", textX.intValue(), textY.intValue());
+                break;
+            case Ranking:
+                ranking.render(graphics);
                 break;
         }
 

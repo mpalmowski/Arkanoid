@@ -14,9 +14,6 @@ class SimpleButton {
         this.height = height;
         this.text = text;
         this.buttonFunction = buttonFunction;
-        if(this.text == "" && this.buttonFunction == ButtonFunction.PlayerName){
-            this.text = "PLAYER 1";
-        }
     }
 
     void setText(String text){
