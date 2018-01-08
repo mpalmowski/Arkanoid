@@ -3,8 +3,10 @@ import java.awt.event.KeyEvent;
 class Model {
     private Controller controller;
     private Menu menu;
-    private Ranking ranking;
     private static final String MENUBGPATH = "MenuBg.png";
+
+    private Ranking ranking;
+    private static final String RANKINGBGPATH = "RankingBg.png";
 
     private Game game;
     private static final String GAMEBGPATH = "RetroBg.png";
@@ -25,11 +27,11 @@ class Model {
     }
 
     void addMenuButtons() {
-        menu.addButtons(game.getBoardWidth(), game.getBoardHeight());
+        menu.addButtons();
     }
 
     void addRankingBackground(){
-        Image backgroundImage = new Image(MENUBGPATH);
+        Image backgroundImage = new Image(RANKINGBGPATH);
         ranking.setBackGround(new Background(game, backgroundImage));
     }
 
@@ -43,13 +45,10 @@ class Model {
         Image ballImage = new Image(BALLPATH);
         game.addObject(new Ball(game, ID.Ball, ballImage));
 
-        game.addBricks(game.getBoardWidth(), game.getBoardHeight());
+        game.addBricks();
     }
 
     void handleKeyPressed(int keyCode) {
-        if (keyCode == KeyEvent.VK_ESCAPE)
-            System.exit(0);
-
         if (keyCode == KeyEvent.VK_LEFT) {
             GameObject tempObject = game.objects.get(0);
             tempObject.setVelX(-5.0);

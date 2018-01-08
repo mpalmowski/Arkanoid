@@ -5,29 +5,15 @@ import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-class Ranking {
-    private Background background = null;
+class Ranking extends GamePhase {
     private LinkedList<String> playerNames = new LinkedList<>();
     private LinkedList<Integer> playerScores = new LinkedList<>();
-
     private String fileName;
+    private static final int RANKINGSIZE = 10;
+
     Ranking(String fileName) {
         this.fileName = fileName;
         load();
-    }
-
-    void setBackGround(Background background) {
-        this.background = background;
-    }
-
-    void render(Graphics graphics) {
-        if (background != null)
-            background.render(graphics);
-
-        double textHeight = graphics.getFontMetrics().getStringBounds("GAME OVER", graphics).getHeight();
-        textHeight += 5;
-        textHeight *= playerNames.size();
-        graphics.drawRect(0,0,0,0);
     }
 
     private void load() {
@@ -46,6 +32,8 @@ class Ranking {
     }
 
     void save() {
+        sortLists();
+
         try {
             Formatter formatter = new Formatter(fileName);
             for (int i = 0; i < playerNames.size(); i++) {
@@ -59,36 +47,8 @@ class Ranking {
     }
 
     void addPlayer(String playerName) {
-        for (String playerName1 : playerNames) {
-            if (playerName1.equals(playerName)) {
-                return;
-            }
-        }
-
         playerNames.add(playerName);
         playerScores.add(0);
-    }
-
-    void renamePlayer(String oldName, String newName) {
-        for (String playerName1 : playerNames) {
-            if (playerName1.equals(newName)) {
-                for (String playerName2 : playerNames) {
-                    if (playerName2.equals(oldName)) {
-                        deletePlayer(oldName);
-                    }
-                }
-                return;
-            }
-        }
-
-        int index = -1;
-        for (int i = 0; i < playerNames.size(); i++) {
-            if (playerNames.get(i).equals(oldName)) {
-                index = i;
-                break;
-            }
-        }
-        playerNames.set(index, newName);
     }
 
     void updateScore(String playerName, Integer playerScore) {
@@ -104,7 +64,63 @@ class Ranking {
         }
     }
 
-    private void deletePlayer(String playerName) {
-        playerNames.remove(playerName);
+    private void sortLists(){
+        int maxScore, maxScoreIndex;
+        for(int i=0; i<RANKINGSIZE; i++){
+            maxScore = 0;
+            maxScoreIndex = i;
+            if(playerScores.size() >= i) {
+                for (int j = i; j < playerScores.size(); j++) {
+                    if (playerScores.get(j) > maxScore) {
+                        maxScore = playerScores.get(j);
+                        maxScoreIndex = j;
+                    }
+                }
+                playerNames.add(i, playerNames.get(maxScoreIndex));
+                playerNames.remove(maxScoreIndex + 1);
+                playerScores.add(i, playerScores.get(maxScoreIndex));
+                playerScores.remove(maxScoreIndex + 1);
+            }
+        }
+        for(int i=RANKINGSIZE; i<playerScores.size(); i++){
+            playerNames.remove(i);
+            playerScores.remove(i);
+        }
+    }
+
+    @Override
+    void render(Graphics graphics) {
+        if (background != null)
+            background.render(graphics);
+
+        graphics.setColor(Color.WHITE);
+
+        Double upperMargin = windowHeight / 3;
+        Double sideMargin = windowWidth / 5;
+        double textHeight = graphics.getFontMetrics().getStringBounds("A", graphics).getHeight();
+        Double tableHeight = (textHeight + 5) * 10 + 5;
+        Double tableWidth = windowWidth - 2 * sideMargin;
+        graphics.drawRect(sideMargin.intValue(), upperMargin.intValue(), tableWidth.intValue(), tableHeight.intValue());
+
+        Double nameX, textY, scoreX;
+        double scoreWidth;
+        nameX = sideMargin + 5;
+        textY = upperMargin + textHeight;
+        for(int i=0; i<RANKINGSIZE; i++){
+            if(playerNames.size() > i) {
+                graphics.drawString(playerNames.get(i), nameX.intValue(), textY.intValue());
+                scoreWidth = graphics.getFontMetrics().getStringBounds(playerScores.get(i).toString(), graphics).getWidth();
+                scoreX = windowWidth - sideMargin - scoreWidth - 5;
+                graphics.drawString(playerScores.get(i).toString(), scoreX.intValue(), textY.intValue());
+                textY += textHeight + 5;
+            }
+        }
+
+        Double instructionX, instructionY, instructionWidth;
+        final String instruction = "PRESS   ESC   TO   RETURN   TO   MENU";
+        instructionWidth = graphics.getFontMetrics().getStringBounds(instruction, graphics).getWidth();
+        instructionX = (windowWidth - instructionWidth)/2;
+        instructionY = windowHeight - windowHeight/18 - textHeight;
+        graphics.drawString(instruction, instructionX.intValue(), instructionY.intValue());
     }
 }

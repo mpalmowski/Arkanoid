@@ -1,23 +1,17 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-class Game {
-    private Background background = null;
+class Game extends GamePhase{
     LinkedList<GameObject> objects = new LinkedList<>();
 
     private double breakBetweenBricks, sideBrickMargin, upperBrickMargin, brickWidth, brickHeight;
     private static final int BRICKROWS = 5, BRICKSINROW = 9;
 
     boolean running = true;
-    private double boardWidth = 0.0, boardHeight = 0.0;
     private int score = 0;
 
     void addObject(GameObject object){
         this.objects.add(object);
-    }
-
-    void setBackGround(Background background){
-        this.background = background;
     }
 
     private void calculateBricksPositions(double windowWidth, double windowHeight) {
@@ -28,7 +22,7 @@ class Game {
         brickHeight = brickWidth / 2;
     }
 
-    void addBricks(double windowWidth, double windowHeight){
+    void addBricks(){
         calculateBricksPositions(windowWidth, windowHeight);
 
         for (Integer i = 1; i <= BRICKROWS; i++) {
@@ -51,29 +45,6 @@ class Game {
         }
     }
 
-    void render(Graphics graphics){
-        if(background != null)
-            background.render(graphics);
-
-        for (GameObject tempObject : objects) {
-            if(tempObject.exists)
-                tempObject.render(graphics);
-        }
-    }
-
-    double getBoardWidth() {
-        return boardWidth;
-    }
-
-    void setBoardDimensions(double boardWidth, double boardHeight) {
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
-    }
-
-    double getBoardHeight() {
-        return boardHeight;
-    }
-
     void increaseScore(int scoredPoints){
         score += scoredPoints;
     }
@@ -91,5 +62,16 @@ class Game {
 
     void end(){
         running = false;
+    }
+
+    @Override
+    void render(Graphics graphics){
+        if(background != null)
+            background.render(graphics);
+
+        for (GameObject tempObject : objects) {
+            if(tempObject.exists)
+                tempObject.render(graphics);
+        }
     }
 }

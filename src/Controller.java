@@ -23,7 +23,7 @@ public class Controller implements Runnable {
         ranking = new Ranking(rankingFileName);
         ranking.addPlayer(playerName);
 
-        view = new View(WIDTH, HEIGHT, game, menu, ranking);
+        view = new View(this, game, menu, ranking);
         model = new Model(this, game, menu, ranking);
 
         view.createWindow();
@@ -65,6 +65,12 @@ public class Controller implements Runnable {
         model.addRankingBackground();
 
         model.addGameObjects();
+    }
+
+    void setWindowDimensions(double windowWidth, double windowHeight){
+        menu.setWindowDimensions(windowWidth, windowHeight);
+        game.setWindowDimensions(windowWidth, windowHeight);
+        ranking.setWindowDimensions(windowWidth, windowHeight);
     }
 
     private synchronized void start() {
@@ -139,7 +145,7 @@ public class Controller implements Runnable {
                     model.setPlayerName(playerName + "|");
                 } else if (keyCode == KeyEvent.VK_ENTER) {
                     model.setPlayerName(playerName);
-                    ranking.renamePlayer(oldPlayerName, playerName);
+                    ranking.addPlayer(playerName);
                     setGameState(State.Menu);
                 } else if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z || keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
                     playerName = playerName.concat(KeyEvent.getKeyText(keyCode));
@@ -173,5 +179,13 @@ public class Controller implements Runnable {
             e.printStackTrace();
         }
 
+    }
+
+    static Integer getWIDTH() {
+        return WIDTH;
+    }
+
+    static Integer getHEIGHT() {
+        return HEIGHT;
     }
 }

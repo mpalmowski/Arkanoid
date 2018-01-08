@@ -15,8 +15,8 @@ abstract class GameObject {
 
     GameObject(Game game, ID id, Image image) {
         this.game = game;
-        this.boardWidth = game.getBoardWidth();
-        this.boardHeight = game.getBoardHeight();
+        this.boardWidth = game.getWindowWidth();
+        this.boardHeight = game.getWindowHeight();
         this.id = id;
         this.image = image;
     }

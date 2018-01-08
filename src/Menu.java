@@ -1,8 +1,7 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-class Menu {
-    private Background background = null;
+class Menu extends GamePhase{
     LinkedList<SimpleButton> buttons = new LinkedList<>();
 
     private static final int BUTTONS = 3;
@@ -17,11 +16,7 @@ class Menu {
             ButtonFunction.Ranking
     };
 
-    void setBackGround(Background background) {
-        this.background = background;
-    }
-
-    void addButtons(double windowWidth, double windowHeight){
+    void addButtons(){
         double breakBetweenButtons = windowHeight / 15;
         double upperButtonMargin = windowHeight / 2.5;
         double lowerButtonMargin = windowHeight / 10;
@@ -34,18 +29,15 @@ class Menu {
             buttonX = sideButtonMargin;
             buttonY = upperButtonMargin + i * buttonHeight + i * breakBetweenButtons;
             SimpleButton button = new SimpleButton(buttonX.intValue(), buttonY.intValue(), buttonWidth, buttonHeight, buttonTexts[i], buttonFunctions[i]);
-            addButton(button);
+            this.buttons.add(button);
         }
-    }
-
-    void addButton(SimpleButton button) {
-        this.buttons.add(button);
     }
 
     void setPlayerName(String playerName){
         buttons.get(0).setText(playerName);
     }
 
+    @Override
     void render(Graphics graphics) {
         if (background != null)
             background.render(graphics);

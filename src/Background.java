@@ -5,9 +5,9 @@ class Background {
     private Double width =0.0, height = 0.0;
     private Image image;
 
-    Background(Game game, Image image){
-        this.width = game.getBoardWidth();
-        this.height = game.getBoardHeight();
+    Background(GamePhase gamePhase, Image image){
+        this.width = gamePhase.getWindowWidth();
+        this.height = gamePhase.getWindowHeight();
         this.image = image;
     }
 

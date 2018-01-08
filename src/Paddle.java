@@ -4,7 +4,7 @@ public class Paddle extends GameObject{
 
     Paddle(Game game, ID id, Image image) {
         super(game, id, image);
-        this.width = game.getBoardWidth()/6;
+        this.width = game.getWindowWidth()/6;
         this.height = this.width/5;
         this.x = boardWidth/2 - width/2;
         this.y = boardHeight - height - boardHeight/11;
