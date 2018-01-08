@@ -55,7 +55,7 @@ class Model {
         } else if (keyCode == KeyEvent.VK_RIGHT) {
             GameObject tempObject = game.objects.get(0);
             tempObject.setVelX(5.0);
-        } else if (keyCode == KeyEvent.VK_UP) {
+        } else if (game.running) {
             GameObject tempObject = game.objects.get(1);
             tempObject.setAllowMovement(true);
         }

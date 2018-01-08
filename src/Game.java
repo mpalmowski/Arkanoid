@@ -54,6 +54,7 @@ class Game extends GamePhase{
     }
 
     void reset(){
+        score = 0;
         for (GameObject tempObject : objects) {
             tempObject.reset();
         }

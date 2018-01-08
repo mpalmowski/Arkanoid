@@ -13,7 +13,6 @@ public class Controller implements Runnable {
     private boolean running = false;
     private State gameState = State.Menu;
     private String playerName = "PLAYER1";
-    private String oldPlayerName = "";
     private Ranking ranking;
 
     Controller() {
@@ -21,7 +20,6 @@ public class Controller implements Runnable {
         menu = new Menu();
 
         ranking = new Ranking(rankingFileName);
-        ranking.addPlayer(playerName);
 
         view = new View(this, game, menu, ranking);
         model = new Model(this, game, menu, ranking);
@@ -50,8 +48,6 @@ public class Controller implements Runnable {
         setGameState(State.GameOver);
         ranking.updateScore(playerName, game.getScore());
         ranking.save();
-        playerName = "PLAYER1";
-        model.setPlayerName(playerName);
     }
 
     private void addObjects() {
@@ -117,11 +113,11 @@ public class Controller implements Runnable {
                 switch (button.getButtonFunction()) {
                     case PlayerName:
                         setGameState(State.NameChanging);
-                        oldPlayerName = playerName;
                         model.setPlayerName(playerName + "|");
                         break;
                     case Start:
                         model.reset();
+                        ranking.addPlayer(playerName);
                         setGameState(State.Game);
                         break;
                     case Ranking:
@@ -145,15 +141,15 @@ public class Controller implements Runnable {
                     model.setPlayerName(playerName + "|");
                 } else if (keyCode == KeyEvent.VK_ENTER) {
                     model.setPlayerName(playerName);
-                    ranking.addPlayer(playerName);
                     setGameState(State.Menu);
-                } else if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z || keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
-                    playerName = playerName.concat(KeyEvent.getKeyText(keyCode));
-                    model.setPlayerName(playerName + "|");
-                }
-                else if(keyCode == KeyEvent.VK_SPACE){
-                    playerName = playerName.concat(" ");
-                    model.setPlayerName(playerName + "|");
+                } else if(playerName.length() < 10) {
+                    if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z || keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
+                        playerName = playerName.concat(KeyEvent.getKeyText(keyCode));
+                        model.setPlayerName(playerName + "|");
+                    } else if (keyCode == KeyEvent.VK_SPACE) {
+                        playerName = playerName.concat(" ");
+                        model.setPlayerName(playerName + "|");
+                    }
                 }
                 break;
             case GameOver:

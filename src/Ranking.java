@@ -69,7 +69,7 @@ class Ranking extends GamePhase {
         for(int i=0; i<RANKINGSIZE; i++){
             maxScore = 0;
             maxScoreIndex = i;
-            if(playerScores.size() >= i) {
+            if(playerScores.size() > i) {
                 for (int j = i; j < playerScores.size(); j++) {
                     if (playerScores.get(j) > maxScore) {
                         maxScore = playerScores.get(j);
