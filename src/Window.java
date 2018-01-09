@@ -1,10 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Main window of the application
+ */
 class Window extends Canvas {
 
     private JFrame frame;
 
+    /**
+     * Creates a window and displays it.
+     * @param width specified width
+     * @param height specified height
+     * @param title specified title
+     * @param view specified view
+     */
     Window(int width, int height, String title, View view){
         frame = new JFrame(title);
         Dimension dimension = new Dimension(width, height);

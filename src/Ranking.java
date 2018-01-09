@@ -5,7 +5,7 @@ import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-class Ranking extends GamePhase {
+class Ranking extends AppPhase {
     private LinkedList<String> playerNames = new LinkedList<>();
     private LinkedList<Integer> playerScores = new LinkedList<>();
     private String fileName;

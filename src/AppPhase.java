@@ -1,6 +1,6 @@
 import java.awt.*;
 
-abstract class GamePhase {
+abstract class AppPhase {
     Background background = null;
     double windowHeight = 0, windowWidth = 0;
 

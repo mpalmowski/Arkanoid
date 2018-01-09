@@ -1,7 +1,7 @@
 import java.awt.*;
 import java.util.LinkedList;
 
-class Menu extends GamePhase{
+class Menu extends AppPhase {
     LinkedList<SimpleButton> buttons = new LinkedList<>();
 
     private static final int BUTTONS = 3;

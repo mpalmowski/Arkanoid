@@ -63,7 +63,7 @@ public class Controller implements Runnable {
         model.addGameObjects();
     }
 
-    void setWindowDimensions(double windowWidth, double windowHeight){
+    void setWindowDimensions(double windowWidth, double windowHeight) {
         menu.setWindowDimensions(windowWidth, windowHeight);
         game.setWindowDimensions(windowWidth, windowHeight);
         ranking.setWindowDimensions(windowWidth, windowHeight);
@@ -78,7 +78,7 @@ public class Controller implements Runnable {
     public void run() {
         long before;
         long now;
-        double ns = 1000000000 / 60.0;
+        double ns = 1000000000 / 120.0;
         double delta = 0;
         long timer = System.currentTimeMillis();
         int framesPerSecond = 0;
@@ -142,7 +142,7 @@ public class Controller implements Runnable {
                 } else if (keyCode == KeyEvent.VK_ENTER) {
                     model.setPlayerName(playerName);
                     setGameState(State.Menu);
-                } else if(playerName.length() < 10) {
+                } else if (playerName.length() < 10) {
                     if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z || keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
                         playerName = playerName.concat(KeyEvent.getKeyText(keyCode));
                         model.setPlayerName(playerName + "|");
@@ -153,10 +153,11 @@ public class Controller implements Runnable {
                 }
                 break;
             case GameOver:
-                setGameState(State.Menu);
+                if (keyCode == KeyEvent.VK_ENTER)
+                    setGameState(State.Menu);
                 break;
             case Ranking:
-                if(keyCode == KeyEvent.VK_ESCAPE){
+                if (keyCode == KeyEvent.VK_ESCAPE) {
                     setGameState(State.Menu);
                 }
                 break;
