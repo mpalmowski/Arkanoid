@@ -5,6 +5,10 @@ import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+/**
+ * App phase responsible for the game ranking.
+ * Contains a background and a table of highest scores with player names.
+ */
 class Ranking extends AppPhase {
     private LinkedList<String> playerNames = new LinkedList<>();
     private LinkedList<Integer> playerScores = new LinkedList<>();
@@ -12,6 +16,11 @@ class Ranking extends AppPhase {
     private static final String BG_PATH = "RankingBg.png";
     private static final int RANKING_SIZE = 10;
 
+    /**
+     * Creates a ranking and loads ranking data from a specified file.
+     *
+     * @param fileName Specified file name
+     */
     Ranking(String fileName) {
         this.fileName = fileName;
         load();
@@ -23,6 +32,9 @@ class Ranking extends AppPhase {
         this.background = new Background(this, backgroundImage);
     }
 
+    /**
+     * Loads data from the file.
+     */
     private void load() {
         try {
             File file = new File(fileName);
@@ -38,6 +50,9 @@ class Ranking extends AppPhase {
         }
     }
 
+    /**
+     * Saves data to the file.
+     */
     void save() {
         sortLists();
 
@@ -53,11 +68,22 @@ class Ranking extends AppPhase {
         }
     }
 
+    /**
+     * Adds new player to the ranking.
+     *
+     * @param playerName Specified players name.
+     */
     void addPlayer(String playerName) {
         playerNames.add(playerName);
         playerScores.add(0);
     }
 
+    /**
+     * Updates score of a specified player.
+     *
+     * @param playerName  Specified players name
+     * @param playerScore Specified score points
+     */
     void updateScore(String playerName, Integer playerScore) {
         int index = 0;
         for (int i = 0; i < playerNames.size(); i++) {
@@ -71,6 +97,10 @@ class Ranking extends AppPhase {
         }
     }
 
+    /**
+     * Sorts ranking by descending order.
+     * Deletes players with indexes higher than the maximum allowed ranking size.
+     */
     private void sortLists() {
         int maxScore, maxScoreIndex;
         for (int i = 0; i < RANKING_SIZE; i++) {

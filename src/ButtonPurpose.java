@@ -1,7 +1,7 @@
 /**
  * Enumeration used to distinguish buttons from each other.
  */
-public enum ButtonFunction {
+public enum ButtonPurpose {
     PlayerName,
     Start,
     Ranking

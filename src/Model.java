@@ -41,10 +41,10 @@ class Model {
         game.setBackground();
 
         Image paddleImage = new Image(PADDLE_PATH);
-        game.addObject(new Paddle(game, ID.Paddle, paddleImage));
+        game.addObject(new Paddle(game, paddleImage));
 
         Image ballImage = new Image(BALL_PATH);
-        game.addObject(new Ball(game, ID.Ball, ballImage));
+        game.addObject(new Ball(game, ballImage));
 
         game.addBricks();
     }

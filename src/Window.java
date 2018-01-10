@@ -10,12 +10,13 @@ class Window extends Canvas {
 
     /**
      * Creates a window and displays it.
-     * @param width specified width
+     *
+     * @param width  specified width
      * @param height specified height
-     * @param title specified title
-     * @param view specified view
+     * @param title  specified title
+     * @param view   specified view
      */
-    Window(int width, int height, String title, View view){
+    Window(int width, int height, String title, View view) {
         frame = new JFrame(title);
         Dimension dimension = new Dimension(width, height);
 
@@ -30,7 +31,10 @@ class Window extends Canvas {
         frame.setVisible(true);
     }
 
-    Insets getInsets(){
+    /**
+     * @return Return value of a JFrame.getInsets() function
+     */
+    Insets getInsets() {
         return frame.getInsets();
     }
 }

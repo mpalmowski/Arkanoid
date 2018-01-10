@@ -15,10 +15,10 @@ class Menu extends AppPhase {
             "START",
             "RANKING"
     };
-    private ButtonFunction[] buttonFunctions = new ButtonFunction[]{
-            ButtonFunction.PlayerName,
-            ButtonFunction.Start,
-            ButtonFunction.Ranking
+    private ButtonPurpose[] buttonPurposes = new ButtonPurpose[]{
+            ButtonPurpose.PlayerName,
+            ButtonPurpose.Start,
+            ButtonPurpose.Ranking
     };
 
     @Override
@@ -43,7 +43,7 @@ class Menu extends AppPhase {
             Double buttonX, buttonY;
             buttonX = sideButtonMargin;
             buttonY = upperButtonMargin + i * buttonHeight + i * breakBetweenButtons;
-            SimpleButton button = new SimpleButton(buttonX.intValue(), buttonY.intValue(), buttonWidth, buttonHeight, buttonTexts[i], buttonFunctions[i]);
+            SimpleButton button = new SimpleButton(buttonX.intValue(), buttonY.intValue(), buttonWidth, buttonHeight, buttonTexts[i], buttonPurposes[i]);
             this.buttons.add(button);
         }
     }

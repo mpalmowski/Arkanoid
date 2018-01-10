@@ -14,11 +14,10 @@ class Brick extends GameObject {
      * @param height      Specified height
      * @param scorePoints Amount of points granted on destruction
      * @param game        Specified Game class instance
-     * @param id          Specified id to distinguish from other objects
      * @param image       Specified image
      */
-    Brick(double width, double height, int scorePoints, Game game, ID id, Image image) {
-        super(game, id, image);
+    Brick(double width, double height, int scorePoints, Game game, Image image) {
+        super(game, ID.Brick, image);
 
         this.scorePoints = scorePoints;
         this.width = width;

@@ -52,7 +52,7 @@ class Game extends AppPhase {
             for (int j = 1; j <= BRICKS_IN_ROW; j++) {
                 String filename = "Brick" + i.toString() + ".png";
                 Image brickImage = new Image(filename);
-                Brick brick = new Brick(brickWidth, brickHeight, BRICK_POINTS, this, ID.Brick, brickImage);
+                Brick brick = new Brick(brickWidth, brickHeight, BRICK_POINTS, this, brickImage);
                 double brickX = (j - 1) * brickWidth + j * breakBetweenBricks + sideBrickMargin;
                 double brickY = (i - 1) * brickHeight + i * breakBetweenBricks + upperBrickMargin;
                 brick.setX(brickX);

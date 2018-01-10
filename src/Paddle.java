@@ -10,11 +10,10 @@ public class Paddle extends GameObject {
      * Creates a paddle at the bottom center of the game board.
      *
      * @param game  Specified game
-     * @param id    Specified id to distinguish from other objects
      * @param image Specified image
      */
-    Paddle(Game game, ID id, Image image) {
-        super(game, id, image);
+    Paddle(Game game, Image image) {
+        super(game, ID.Paddle, image);
         this.width = game.getWindowWidth() / 6;
         this.height = this.width / 5;
         this.x = boardWidth / 2 - width / 2;

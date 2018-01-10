@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
+/**
+ * Class responsible for calling the rendering and tick function on all objects currently displayed.
+ */
 class View extends Canvas {
     private Controller controller;
     private Game game;
@@ -19,6 +22,11 @@ class View extends Canvas {
         this.ranking = ranking;
     }
 
+    /**
+     * Rendering function called by the controller.
+     * Calls rendering function on all objects currently displayed.
+     * Renders additional elements if needed, according to current application phase.
+     */
     void render() {
         BufferStrategy bufferStrategy = this.getBufferStrategy();
         if (bufferStrategy == null) {
@@ -51,13 +59,13 @@ class View extends Canvas {
                 final String textLine2 = "PRESS   ENTER   TO   CONTINUE";
                 double textWidth = graphics.getFontMetrics().getStringBounds(textLine1, graphics).getWidth();
                 double textHeight = graphics.getFontMetrics().getStringBounds(textLine1, graphics).getHeight();
-                Double textX = (width - textWidth)/2;
-                Double textY = (height - textHeight)/2 + textHeight;
+                Double textX = (width - textWidth) / 2;
+                Double textY = (height - textHeight) / 2 + textHeight;
                 graphics.drawString(textLine1, textX.intValue(), textY.intValue());
                 textWidth = graphics.getFontMetrics().getStringBounds(textLine2, graphics).getWidth();
                 textHeight = graphics.getFontMetrics().getStringBounds(textLine2, graphics).getHeight();
-                textX = (width - textWidth)/2;
-                textY += textHeight + width/10;
+                textX = (width - textWidth) / 2;
+                textY += textHeight + width / 10;
                 graphics.drawString(textLine2, textX.intValue(), textY.intValue());
                 break;
             case Ranking:
@@ -69,10 +77,17 @@ class View extends Canvas {
         bufferStrategy.show();
     }
 
+    /**
+     * Creates a window of fixed width, height and title.
+     */
     void createWindow() {
         window = new Window(width, height, "Arkanoid", this);
     }
 
+    /**
+     * Measures the dimensions of the window, ignoring the borders and the title bar.
+     * Gives them to the controller.
+     */
     void getWindowParameters() {
         Insets windowInsets = window.getInsets();
         double boardHeight = height.doubleValue() - windowInsets.top - windowInsets.bottom;

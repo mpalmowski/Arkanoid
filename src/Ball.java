@@ -18,11 +18,10 @@ public class Ball extends GameObject {
      * Creates a non-moving ball in a fixed point of a window. Can be set in motion by setting allowMovement to true;
      *
      * @param game  Specified Game class instance
-     * @param id    Specified id to distinguish from other objects
      * @param image Specified image
      */
-    Ball(Game game, ID id, Image image) {
-        super(game, id, image);
+    Ball(Game game, Image image) {
+        super(game, ID.Ball, image);
 
         this.width = boardWidth / 35;
         this.height = boardWidth / 35;

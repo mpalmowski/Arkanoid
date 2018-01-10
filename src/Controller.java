@@ -148,7 +148,7 @@ public class Controller implements Runnable {
         for (SimpleButton button : menu.buttons) {
             Rectangle buttonBounds = button.getBounds();
             if (buttonBounds.contains(x, y)) {
-                switch (button.getButtonFunction()) {
+                switch (button.getButtonPurpose()) {
                     case PlayerName:
                         setAppState(State.NameChanging);
                         model.setPlayerName(playerName + "|");
