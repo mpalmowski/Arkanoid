@@ -1,6 +1,10 @@
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Standard mouse buttons listener.
+ * Calls the controller when an event occurs.
+ */
 public class MouseListener extends MouseAdapter {
     private Controller controller;
 

@@ -1,18 +1,16 @@
 import java.awt.event.KeyEvent;
 
+/**
+ * Class responsible for all in-app calculations.
+ */
 class Model {
     private Controller controller;
     private Menu menu;
-    private static final String MENUBGPATH = "MenuBg.png";
-
     private Ranking ranking;
-    private static final String RANKINGBGPATH = "RankingBg.png";
-
     private Game game;
-    private static final String GAMEBGPATH = "RetroBg.png";
-    private static final String PADDLEPATH = "RetroPaddle.png";
-    private static final String BALLPATH = "RetroBall.png";
-    private State gameState;
+    private static final String PADDLE_PATH = "RetroPaddle.png";
+    private static final String BALL_PATH = "RetroBall.png";
+    private State appState;
 
     Model(Controller controller, Game game, Menu menu, Ranking ranking) {
         this.controller = controller;
@@ -21,33 +19,43 @@ class Model {
         this.ranking = ranking;
     }
 
-    void addMenuBackground() {
-        Image backgroundImage = new Image(MENUBGPATH);
-        menu.setBackGround(new Background(game, backgroundImage));
-    }
-
-    void addMenuButtons() {
+    /**
+     * adds a background and buttons to the menu application phase.
+     */
+    void addMenuObjects() {
+        menu.setBackground();
         menu.addButtons();
     }
 
-    void addRankingBackground(){
-        Image backgroundImage = new Image(RANKINGBGPATH);
-        ranking.setBackGround(new Background(game, backgroundImage));
+    /**
+     * Adds a background to the ranking application phase.
+     */
+    void addRankingBackground() {
+        ranking.setBackground();
     }
 
-    void addGameObjects(){
-        Image backgroundImage = new Image(GAMEBGPATH);
-        game.setBackGround(new Background(game, backgroundImage));
+    /**
+     * Adds a background, paddle, ball and bricks to the game application phase.
+     */
+    void addGameObjects() {
+        game.setBackground();
 
-        Image paddleImage = new Image(PADDLEPATH);
+        Image paddleImage = new Image(PADDLE_PATH);
         game.addObject(new Paddle(game, ID.Paddle, paddleImage));
 
-        Image ballImage = new Image(BALLPATH);
+        Image ballImage = new Image(BALL_PATH);
         game.addObject(new Ball(game, ID.Ball, ballImage));
 
         game.addBricks();
     }
 
+    /**
+     * Function called by the controller after a keyboard key being pressed.
+     * Suitable only for the game application phase.
+     * Starts moving the paddle left or right, or allows ball movement, depending on the key pressed.
+     *
+     * @param keyCode Specified keyCode
+     */
     void handleKeyPressed(int keyCode) {
         if (keyCode == KeyEvent.VK_LEFT) {
             GameObject tempObject = game.objects.get(0);
@@ -61,8 +69,15 @@ class Model {
         }
     }
 
+    /**
+     * Function called by the controller after a keyboard key being pressed.
+     * Suitable only for the game application phase.
+     * Stops moving the paddle depending on the key pressed.
+     *
+     * @param keyCode Specified keyCode
+     */
     void handleKeyReleased(int keyCode) {
-        switch (gameState) {
+        switch (appState) {
             case Game:
                 if (keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
                     GameObject tempObject = game.objects.get(0);
@@ -72,26 +87,32 @@ class Model {
         }
     }
 
-    void setPlayerName(String playerName){
+    void setPlayerName(String playerName) {
         menu.setPlayerName(playerName);
     }
 
+    /**
+     * Function called 120 times per second. Independent from rendering speed.
+     */
     void tick() {
-        switch (gameState) {
+        switch (appState) {
             case Game:
                 game.tick();
-                if(!game.running){
+                if (!game.running) {
                     controller.gameOver();
                 }
                 break;
         }
     }
 
-    void reset(){
+    /**
+     * Resets the game application phase and all its objects to their default state.
+     */
+    void reset() {
         game.reset();
     }
 
-    void setGameState(State gameState) {
-        this.gameState = gameState;
+    void setAppState(State appState) {
+        this.appState = appState;
     }
 }

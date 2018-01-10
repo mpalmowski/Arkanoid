@@ -3,7 +3,7 @@ import java.awt.*;
 import static java.lang.Math.*;
 
 /**
- * Object representing a ball during game.
+ * Object representing a ball during the game.
  * When movement allowed, constantly moves around the screen, bouncing off other objects.
  * Stops when colliding with a bottom edge of a game board.
  * Destroys bricks on collision.
@@ -42,7 +42,7 @@ public class Ball extends GameObject {
         double ballCenter = x + width / 2;
         double paddleCenter = paddle.getX() + paddle.getWidth() / 2;
         double pointOfCollision = ballCenter - paddleCenter;
-        return pointOfCollision / paddle.getWidth();
+        return pointOfCollision / paddle.getWidth() * 1.5;
     }
 
     @Override
@@ -89,12 +89,7 @@ public class Ball extends GameObject {
         for (GameObject tempObject : game.objects) {
             if (tempObject.id == ID.Paddle) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    double angle = calculateAngle(tempObject);
-                    this.angle = angle;
-                    if (this.angle > 0.8)
-                        this.angle = 0.8;
-                    else if (this.angle < -0.8)
-                        this.angle = -0.8;
+                    this.angle = calculateAngle(tempObject);
 
                     double tempX, tempY;
                     tempX = velocity * sin(this.angle);

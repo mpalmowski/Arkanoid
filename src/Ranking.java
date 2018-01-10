@@ -9,11 +9,18 @@ class Ranking extends AppPhase {
     private LinkedList<String> playerNames = new LinkedList<>();
     private LinkedList<Integer> playerScores = new LinkedList<>();
     private String fileName;
-    private static final int RANKINGSIZE = 10;
+    private static final String BG_PATH = "RankingBg.png";
+    private static final int RANKING_SIZE = 10;
 
     Ranking(String fileName) {
         this.fileName = fileName;
         load();
+    }
+
+    @Override
+    void setBackground() {
+        Image backgroundImage = new Image(BG_PATH);
+        this.background = new Background(this, backgroundImage);
     }
 
     private void load() {
@@ -64,12 +71,12 @@ class Ranking extends AppPhase {
         }
     }
 
-    private void sortLists(){
+    private void sortLists() {
         int maxScore, maxScoreIndex;
-        for(int i=0; i<RANKINGSIZE; i++){
+        for (int i = 0; i < RANKING_SIZE; i++) {
             maxScore = 0;
             maxScoreIndex = i;
-            if(playerScores.size() > i) {
+            if (playerScores.size() > i) {
                 for (int j = i; j < playerScores.size(); j++) {
                     if (playerScores.get(j) > maxScore) {
                         maxScore = playerScores.get(j);
@@ -82,7 +89,7 @@ class Ranking extends AppPhase {
                 playerScores.remove(maxScoreIndex + 1);
             }
         }
-        for(int i=RANKINGSIZE; i<playerScores.size(); i++){
+        for (int i = RANKING_SIZE; i < playerScores.size(); i++) {
             playerNames.remove(i);
             playerScores.remove(i);
         }
@@ -106,8 +113,8 @@ class Ranking extends AppPhase {
         double scoreWidth;
         nameX = sideMargin + 5;
         textY = upperMargin + textHeight;
-        for(int i=0; i<RANKINGSIZE; i++){
-            if(playerNames.size() > i) {
+        for (int i = 0; i < RANKING_SIZE; i++) {
+            if (playerNames.size() > i) {
                 graphics.drawString(playerNames.get(i), nameX.intValue(), textY.intValue());
                 scoreWidth = graphics.getFontMetrics().getStringBounds(playerScores.get(i).toString(), graphics).getWidth();
                 scoreX = windowWidth - sideMargin - scoreWidth - 5;
@@ -119,8 +126,8 @@ class Ranking extends AppPhase {
         Double instructionX, instructionY, instructionWidth;
         final String instruction = "PRESS   ESC   TO   RETURN   TO   MENU";
         instructionWidth = graphics.getFontMetrics().getStringBounds(instruction, graphics).getWidth();
-        instructionX = (windowWidth - instructionWidth)/2;
-        instructionY = windowHeight - windowHeight/18 - textHeight;
+        instructionX = (windowWidth - instructionWidth) / 2;
+        instructionY = windowHeight - windowHeight / 18 - textHeight;
         graphics.drawString(instruction, instructionX.intValue(), instructionY.intValue());
     }
 }

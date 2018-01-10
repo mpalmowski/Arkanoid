@@ -8,7 +8,7 @@ class View extends Canvas {
     private Ranking ranking;
     private Integer width, height;
     private Window window;
-    private State gameState;
+    private State appState;
 
     View(Controller controller, Game game, Menu menu, Ranking ranking) {
         this.controller = controller;
@@ -31,7 +31,7 @@ class View extends Canvas {
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, width, height);
 
-        switch (gameState) {
+        switch (appState) {
             case Game:
                 game.render(graphics);
                 graphics.setColor(Color.WHITE);
@@ -80,7 +80,7 @@ class View extends Canvas {
         controller.setWindowDimensions(boardWidth, boardHeight);
     }
 
-    void setGameState(State gameState) {
-        this.gameState = gameState;
+    void setAppState(State appState) {
+        this.appState = appState;
     }
 }

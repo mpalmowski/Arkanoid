@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+/**
+ * Application controller. Called by the main function.
+ */
 public class Controller implements Runnable {
 
     private static final Integer WIDTH = 450, HEIGHT = 600;
@@ -11,10 +14,16 @@ public class Controller implements Runnable {
     private Game game;
     private Menu menu;
     private boolean running = false;
-    private State gameState = State.Menu;
+    private State appState = State.Menu;
     private String playerName = "PLAYER1";
     private Ranking ranking;
 
+    /**
+     * Creates the View and Model class objects.
+     * Creates a ranking and reads the ranking file.
+     * Creates a window and all game objects.
+     * Starts the window application.
+     */
     Controller() {
         game = new Game();
         menu = new Menu();
@@ -30,31 +39,41 @@ public class Controller implements Runnable {
         view.addKeyListener(new KeyListener(this));
         view.addMouseListener(new MouseListener(this));
 
-        view.setGameState(gameState);
-        model.setGameState(gameState);
+        view.setAppState(appState);
+        model.setAppState(appState);
 
         addObjects();
 
         start();
     }
 
-    private void setGameState(State gameState) {
-        this.gameState = gameState;
-        view.setGameState(gameState);
-        model.setGameState(gameState);
+    /**
+     * Sets the appState to a specified value.
+     * appState informs objects in which phase the app currently is.
+     *
+     * @param appState Specified appState
+     */
+    private void setAppState(State appState) {
+        this.appState = appState;
+        view.setAppState(appState);
+        model.setAppState(appState);
     }
 
+    /**
+     * Function called when the ball touches the bottom border of the game board.
+     * Saves user score and sets the appState.
+     */
     void gameOver() {
-        setGameState(State.GameOver);
+        setAppState(State.GameOver);
         ranking.updateScore(playerName, game.getScore());
         ranking.save();
     }
 
+    /**
+     * Creates and adds objects to all game phases.
+     */
     private void addObjects() {
-        model.addMenuBackground();
-        view.render();
-
-        model.addMenuButtons();
+        model.addMenuObjects();
         model.setPlayerName(playerName);
         view.render();
 
@@ -63,6 +82,13 @@ public class Controller implements Runnable {
         model.addGameObjects();
     }
 
+    /**
+     * Informs all game phases about current window dimensions.
+     * Doesn't include window borders and a title bar.
+     *
+     * @param windowWidth  Specified window width
+     * @param windowHeight Specified window height
+     */
     void setWindowDimensions(double windowWidth, double windowHeight) {
         menu.setWindowDimensions(windowWidth, windowHeight);
         game.setWindowDimensions(windowWidth, windowHeight);
@@ -75,6 +101,11 @@ public class Controller implements Runnable {
         running = true;
     }
 
+    /**
+     * Main loop of the application.
+     * Calls the tick function 120 times per second.
+     * Calls the render function as fast as possible and informs about current FPS amount.
+     */
     public void run() {
         long before;
         long now;
@@ -106,30 +137,43 @@ public class Controller implements Runnable {
         stop();
     }
 
+    /**
+     * Function called by a listener after a mouse button being pressed.
+     * Depending on the current game phase, calls a proper function.
+     *
+     * @param x X coordinate of mouse cursor
+     * @param y Y coordinate of mouse cursor
+     */
     void handleMousePressed(int x, int y) {
         for (SimpleButton button : menu.buttons) {
             Rectangle buttonBounds = button.getBounds();
             if (buttonBounds.contains(x, y)) {
                 switch (button.getButtonFunction()) {
                     case PlayerName:
-                        setGameState(State.NameChanging);
+                        setAppState(State.NameChanging);
                         model.setPlayerName(playerName + "|");
                         break;
                     case Start:
                         model.reset();
                         ranking.addPlayer(playerName);
-                        setGameState(State.Game);
+                        setAppState(State.Game);
                         break;
                     case Ranking:
-                        setGameState(State.Ranking);
+                        setAppState(State.Ranking);
                         break;
                 }
             }
         }
     }
 
+    /**
+     * Function called by a listener after a keyboard key being pressed.
+     * Depending on the current game phase, calls a proper function.
+     *
+     * @param keyCode Specified keyCode
+     */
     void handleKeyPressed(int keyCode) {
-        switch (gameState) {
+        switch (appState) {
             case Game:
                 model.handleKeyPressed(keyCode);
                 break;
@@ -141,7 +185,7 @@ public class Controller implements Runnable {
                     model.setPlayerName(playerName + "|");
                 } else if (keyCode == KeyEvent.VK_ENTER) {
                     model.setPlayerName(playerName);
-                    setGameState(State.Menu);
+                    setAppState(State.Menu);
                 } else if (playerName.length() < 10) {
                     if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z || keyCode >= KeyEvent.VK_1 && keyCode <= KeyEvent.VK_9) {
                         playerName = playerName.concat(KeyEvent.getKeyText(keyCode));
@@ -154,20 +198,29 @@ public class Controller implements Runnable {
                 break;
             case GameOver:
                 if (keyCode == KeyEvent.VK_ENTER)
-                    setGameState(State.Menu);
+                    setAppState(State.Menu);
                 break;
             case Ranking:
                 if (keyCode == KeyEvent.VK_ESCAPE) {
-                    setGameState(State.Menu);
+                    setAppState(State.Menu);
                 }
                 break;
         }
     }
 
+    /**
+     * Function called by a listener after a keyboard key being released.
+     * Calls models function.
+     *
+     * @param keyCode Specified keyCode
+     */
     void handleKeyReleased(int keyCode) {
         model.handleKeyReleased(keyCode);
     }
 
+    /**
+     * Exits the application.
+     */
     private synchronized void stop() {
         try {
             running = false;

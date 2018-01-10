@@ -1,9 +1,14 @@
 import java.awt.*;
 import java.util.LinkedList;
 
+/**
+ * App phase responsible for the game menu.
+ * Contains a background and a fixed number of buttons.
+ * Appears on the application start and after finishing a game.
+ */
 class Menu extends AppPhase {
     LinkedList<SimpleButton> buttons = new LinkedList<>();
-
+    private static final String BG_PATH = "MenuBg.png";
     private static final int BUTTONS = 3;
     private String[] buttonTexts = new String[]{
             "",
@@ -16,7 +21,17 @@ class Menu extends AppPhase {
             ButtonFunction.Ranking
     };
 
-    void addButtons(){
+    @Override
+    void setBackground() {
+        Image backgroundImage = new Image(BG_PATH);
+        this.background = new Background(this, backgroundImage);
+    }
+
+    /**
+     * Calculates suitable positions for the buttons, according to window dimensions.
+     * Creates the buttons and adds them to the object list.
+     */
+    void addButtons() {
         double breakBetweenButtons = windowHeight / 15;
         double upperButtonMargin = windowHeight / 2.5;
         double lowerButtonMargin = windowHeight / 10;
@@ -33,7 +48,12 @@ class Menu extends AppPhase {
         }
     }
 
-    void setPlayerName(String playerName){
+    /**
+     * Displays current players name on a responsible button.
+     *
+     * @param playerName Specified players name
+     */
+    void setPlayerName(String playerName) {
         buttons.get(0).setText(playerName);
     }
 

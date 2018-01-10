@@ -9,12 +9,18 @@ import java.util.LinkedList;
  */
 class Game extends AppPhase {
     LinkedList<GameObject> objects = new LinkedList<>();
-
+    private static final String BG_PATH = "RetroBg.png";
     private double breakBetweenBricks, sideBrickMargin, upperBrickMargin, brickWidth, brickHeight;
     private static final int BRICK_ROWS = 5, BRICKS_IN_ROW = 9, BRICK_POINTS = 100;
 
     boolean running = true;
     private int score = 0, roundScore = 0;
+
+    @Override
+    void setBackground() {
+        Image backgroundImage = new Image(BG_PATH);
+        this.background = new Background(this, backgroundImage);
+    }
 
     /**
      * Adds a new object to objects list.
