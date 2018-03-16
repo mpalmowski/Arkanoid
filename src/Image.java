@@ -25,6 +25,7 @@ class Image {
             image = ImageIO.read(getClass().getResource(path));
         } catch (Exception e) {
             System.out.print("Loading image failed: " + e.getMessage());
+            System.exit(1);
         }
         return image;
     }

@@ -147,7 +147,7 @@ public class Controller implements Runnable {
     void handleMousePressed(int x, int y) {
         for (SimpleButton button : menu.buttons) {
             Rectangle buttonBounds = button.getBounds();
-            if (buttonBounds.contains(x, y)) {
+            if (buttonBounds.contains(x, y) && appState == State.Menu) {
                 switch (button.getButtonPurpose()) {
                     case PlayerName:
                         setAppState(State.NameChanging);
