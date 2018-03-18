@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 public class Controller implements Runnable {
 
     private static final Integer WIDTH = 450, HEIGHT = 600;
-    private static final String rankingFileName = "C:\\Users\\palma\\Desktop\\Programming\\workspace\\IntelliJ\\Arkanoid\\res\\Ranking.txt";
+    private static final String rankingFileName = "D:\\Workspace\\IntelliJ\\Arkanoid\\res\\Ranking.txt";
     private Thread thread;
     private View view;
     private Model model;
